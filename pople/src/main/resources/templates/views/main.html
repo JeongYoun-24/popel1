@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="~{layout/layout}">
+	  layout:decorate="~{layout/userlayout}">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
@@ -10,46 +10,17 @@
 
 
 <!--container  border border-1-->
+
 <main>
+	<h3>메인 페이지</h3>
 	<div layout:fragment="content" class="m-2 p-2 ">
 		<!-- 해당 페이지 콘텐츠 영역 작성 -->
-		<div>
-			<form>
-				<div>
-					<input type="text" placeholder="아이디">
-
-				</div>
-				<div>
-					<input type="text" placeholder="비밀번호">
-
-
-				</div>
-				<div>
-					<input type="text" placeholder="이름">
-
-
-				</div>
-				<div>
-					<input type="text" placeholder="번호">
-
-
-				</div>
-				<div>
-					<input type="text" placeholder="생년월일">
-
-				</div>
-				<button class="" id="joinBtn">가입완료</button>
-			</form>
-
-		</div>
-
 
 
 
 
 		<!--모댈창 -->
 	</div>
-
 </main>
 
 
@@ -58,20 +29,7 @@
 
 
 
-
 <script  layout:fragment="script" th:inline="javascript">
-$(function(){
-	$('#joinBtn').click(function(e){
-	 e.preventDefault();
-	console.log("클릭")
-
-	})
-
-})
-
-
-
-
 
 </script>
 <style  layout:fragment="css" th:inline="css">

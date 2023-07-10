@@ -18,36 +18,33 @@ import java.util.UUID;
 
 @Controller
 @Log4j2
-@RequestMapping("/users")
+//@RequestMapping("/users")
 public class TestController {
 
-    @GetMapping(value = "/test")
-    public String test1(){
 
-
-        return "views/test";
-    }
     @GetMapping(value = "/layout")
     public String layout(){
 
         return "layout/layout";
     }
 
-    @GetMapping(value = "/loginpage")
+
+
+    @GetMapping(value = "/users/loginpage") // 로그인 페이지
     public String loginpage(){
 
         return "users/login";
     }
-    @GetMapping(value = "/join")
+    @GetMapping(value = "/users/join")  // 회원 가입 페이지
     public String joinpage(){
 
 
         return "users/join";
     }
-    @RequestMapping(value = "/joindata.do",method = {RequestMethod.POST})
+    @RequestMapping(value = "/users/joindata.do",method = {RequestMethod.POST})
     public String joindata(){
 
-        return "";
+        return "/main";
     }
 
 

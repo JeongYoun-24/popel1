@@ -24,7 +24,8 @@
 		<div>
 			<nav class=" navbar navbar-expand-lg bg-body-tertiary">
 				<div class="alert">
-					<img style="height:50px" id="gg" src="https://img.cgv.co.kr/R2014/images/common/logo/logoRed.png">
+					<a th:href="main"><img style="height:50px" id="gg" src="https://img.cgv.co.kr/R2014/images/common/logo/logoRed.png"></a>
+
 				</div>
 				<div class="container-fluid">
 					<a class="navbar-brand" href="#"></a>
@@ -45,14 +46,32 @@
 										<li><a class="dropdown-item" href="#">베스트</a></li>
 									</ul>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link active" aria-current="page" href="#">극장</a>
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">극장</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="#">CGV극장</a></li>
+										<li><a class="dropdown-item" href="#">특별관</a></li>
+										<li><hr class="dropdown-divider"></li>
+										<li><a class="dropdown-item" href="#">베스트</a></li>
+									</ul>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link active" href="#">예매</a>
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">예매</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="#">빠른예매</a></li>
+										<li><a class="dropdown-item" href="#">상영스케줄</a></li>
+										<li><hr class="dropdown-divider"></li>
+										<li><a class="dropdown-item" href="#">베스트</a></li>
+									</ul>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link active" href="#">스토어</a>
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">스토어</a>
+									<ul class="dropdown-menu">
+										<li><a class="dropdown-item" href="#">패키지</a></li>
+										<li><a class="dropdown-item" href="#">영화관람권</a></li>
+										<li><hr class="dropdown-divider"></li>
+										<li><a class="dropdown-item" href="#">베스트</a></li>
+									</ul>
 								</li>
 							</ul>
 						</div>
@@ -63,10 +82,10 @@
 						<div class="col-3">
 							<ul class="navbar-nav login ">
 								<li class="nav-item">
-									<a class="nav-link " href="loginpage">로그인</a>
+									<a class="nav-link " href="/users/loginpage">로그인</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="join">회원가입</a>
+									<a class="nav-link" href="/users/join">회원가입</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link " href="#">MY페이지</a>

@@ -82,11 +82,16 @@ public class ServiceTest {
     @Test
     @DisplayName(value = "전체 리스트 조회 테스트 ")
     public void findByItemNmTest(){
-        List<Users> itemList =usersService.allList();
+        String user_email = "aaa@naver.com2";
 
-        log.info(itemList);
+        List<Users> usersDTO = usersRepository.findByUser_email(user_email);
+
+        log.info(usersDTO);
 
     }
+
+
+
 
 
 

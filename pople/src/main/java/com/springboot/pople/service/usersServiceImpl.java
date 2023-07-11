@@ -69,4 +69,22 @@ public class usersServiceImpl implements UsersService{
 
         return itemList;
     }
+
+    @Override
+    public UsersDTO loginId(String user_email) { // 이메일로 비밀번호 찾기
+        Optional<Users> result = usersRepository.findById(user_email);
+        Users users = result.orElseThrow();
+        UsersDTO usersDTO = modelMapper.map(users,UsersDTO.class);
+
+        return null;
+    }
+
+    @Override
+    public UsersDTO loginPwd(String user_id, String user_email) { //아이디와 이메일로 비밀번호 찾기
+        Optional<Users> result = usersRepository.findById(user_id);
+        Users users = result.orElseThrow();
+        UsersDTO usersDTO = modelMapper.map(users,UsersDTO.class);
+
+        return null;
+    }
 }

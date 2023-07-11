@@ -14,5 +14,7 @@ public interface UsersService {
 
     public List<Users> allList(); // 전체 리스트
 
+    public UsersDTO loginId(String user_email); // 이메일정보로 아이디 찾기
+    public UsersDTO loginPwd(String user_id,String user_email); // 아이디 이메일정보로 비밀번호 찾기
 
 }

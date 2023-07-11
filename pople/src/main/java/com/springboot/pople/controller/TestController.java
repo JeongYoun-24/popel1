@@ -2,17 +2,26 @@ package com.springboot.pople.controller;
 
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.springboot.pople.dto.UsersDTO;
+import com.springboot.pople.entity.Users;
+import com.springboot.pople.service.UsersService;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.io.PrintWriter;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -21,7 +30,8 @@ import java.util.UUID;
 //@RequestMapping("/users")
 public class TestController {
 
-
+    @Autowired
+    private UsersService usersService;
     @GetMapping(value = "/layout")
     public String layout(){
 
@@ -41,17 +51,54 @@ public class TestController {
 
         return "users/join";
     }
-    @RequestMapping(value = "/users/joindata.do",method = {RequestMethod.POST})
-    public String joindata(){
+    @RequestMapping(value = "/users/joindata",method = {RequestMethod.POST}) // 회원가입 데이터
+    public String joindata(@Valid UsersDTO usersDTO,BindingResult bindingResult,RedirectAttributes redirectAttributes ){
+//        String users_id = req.getParameter("user_id");
+//        String user_pwd = req.getParameter("user_pwd");
+//        String user_name = req.getParameter("user_name");
+//        String user_email = req.getParameter("user_email");
+//        String phone = req.getParameter("phone");
+//        String birthdate = req.getParameter("birthdate");
+//        log.info(users_id);
+//        log.info(user_pwd);
+//        log.info(user_name);
+//        log.info(user_email);
+//        log.info(phone);
+//        log.info(birthdate);
+//
+//
+//
+//        UsersDTO usersDTO = UsersDTO.builder()
+//                .user_id(users_id)
+//                .user_pwd(user_pwd)
+//                .user_name(user_name)
+//                .user_email(user_email)
+//                .phone(phone)
+//                .birthdate(birthdate)
+//                .build();
 
-        return "/main";
-    }
+//        String user_id = usersService.register(usersDTO);
+
+
+        if(bindingResult.hasErrors()){
+            log.info("board errors ...");
+            redirectAttributes.addFlashAttribute("errors",bindingResult.getAllErrors()); //리다이렉션 시 담을 값
+            return "redirect: /users/join";
+        }
+
+        String user_id = usersService.register(usersDTO);
+        redirectAttributes.addFlashAttribute("result",user_id);
+
+        return "/users/login";  //sendRedirect
+
+//        return "users/login";
+  }
 
 
 
 
     @ResponseBody
-    @RequestMapping(value = "/login.do",method = {RequestMethod.POST})
+    @RequestMapping(value = "/login",method = {RequestMethod.POST})
     public String login(@RequestBody HashMap<String, Object> map, Model model,HttpServletResponse resp){
         String user_id = (String) map.get("user_id");
         String user_pwd = (String) map.get("user_pwd");
@@ -84,7 +131,12 @@ public class TestController {
 
         String rt= "";
         int isOk=0;
+        UsersDTO usersDTO = usersService.readOne(user_id);
+//        List<Users> usersDTO = usersService.allList();
 
+
+        String memberId = usersDTO.getUser_id();
+        String memberPwd = usersDTO.getUser_pwd();
 //        member = service.login(user_id);
 
 //        String memberId = member.getUser_id();
@@ -95,13 +147,13 @@ public class TestController {
 
 
 
-        /*if(memberId.equals(user_id)) {
+        if(memberId.equals(user_id)) {
 
             if(memberPwd.equals(user_pwd)) {
 
                 isOk = 1;
-                HttpSession session = req.getSession();
-                session.setAttribute("loginInfo", member.getUser_id());
+//                HttpSession session = req.getSession();
+//                session.setAttribute("loginInfo", usersDTO.getUser_id());
 
             }else {
                 isOk=2;
@@ -113,7 +165,7 @@ public class TestController {
             isOk= -1;
             System.out.println("아이디 정보 없음");
 
-        }*/
+        }
 
 
         if(isOk ==1) {

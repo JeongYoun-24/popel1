@@ -14,7 +14,7 @@ public class MainController{
 
 
         @GetMapping(value = "/main")
-        public String test1(){
+        public String main(){
 
 
             return "views/main";

@@ -3,20 +3,30 @@ package com.springboot.pople.service;
 import com.springboot.pople.dto.UsersDTO;
 import com.springboot.pople.entity.Users;
 import com.springboot.pople.repository.UsersRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Service
 @Log4j2
+@Transactional
+@RequiredArgsConstructor
 public class usersServiceImpl implements UsersService{
 
-    private ModelMapper modelMapper;
 
-    private UsersRepository usersRepository;
+    private final ModelMapper modelMapper;
+
+    private final UsersRepository usersRepository;
+
+
+
 
     @Override
     public String register(UsersDTO usersDTO) {
@@ -50,5 +60,13 @@ public class usersServiceImpl implements UsersService{
     @Override
     public void remove(String user_id) {
         usersRepository.deleteById(user_id);
+    }
+
+    @Override
+    public List<Users> allList() {
+        List<Users> itemList = usersRepository.findAll();
+
+
+        return itemList;
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface UsersRepository  extends JpaRepository<Users,String>, QuerydslPredicateExecutor<Users> {
 
-    List<Users> findByUser_email(String user_email);
+//    List<Users> findByUser_email(String user_email);
 //    @Query(value = "select i form Users i where i.user_email" )
 //    List<Users> findByUser_email(@Param("user_email")String user_email);
 

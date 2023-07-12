@@ -63,6 +63,11 @@ public class usersServiceImpl implements UsersService{
     }
 
     @Override
+    public UsersDTO findByLoginId(String user_id, String user_pwd) {
+        return null;
+    }
+
+    @Override
     public List<Users> allList() {
         List<Users> itemList = usersRepository.findAll();
 
@@ -87,4 +92,8 @@ public class usersServiceImpl implements UsersService{
 
         return null;
     }
+
+
+
+
 }

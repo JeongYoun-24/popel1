@@ -12,6 +12,8 @@ public interface UsersService {
     public void modify(UsersDTO usersDTO);
     public void remove(String user_id);
 
+    public UsersDTO findByLoginId(String user_id,String user_pwd);
+
     public List<Users> allList(); // 전체 리스트
 
     public UsersDTO loginId(String user_email); // 이메일정보로 아이디 찾기

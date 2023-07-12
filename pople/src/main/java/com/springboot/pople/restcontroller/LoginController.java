@@ -1,13 +1,14 @@
-package com.springboot.pople.controller;
+package com.springboot.pople.restcontroller;
 
 
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.springboot.pople.dto.UsersDTO;
 import com.springboot.pople.entity.Users;
 import com.springboot.pople.service.UsersService;
+import com.springboot.pople.sesstion.SessionConst;
 import lombok.extern.log4j.Log4j2;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -18,87 +19,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.PrintWriter;
-import java.net.http.HttpResponse;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
-@Controller
+@RestController
 @Log4j2
-//@RequestMapping("/users")
-public class TestController {
+public class LoginController {
 
     @Autowired
     private UsersService usersService;
-    @GetMapping(value = "/layout")
-    public String layout(){
-
-        return "layout/layout";
-    }
 
 
 
-    @GetMapping(value = "/users/loginpage") // 로그인 페이지
-    public String loginpage(){
-
-        return "users/login";
-    }
-    @GetMapping(value = "/users/join")  // 회원 가입 페이지
-    public String joinpage(){
-
-
-        return "users/join";
-    }
-    @RequestMapping(value = "/users/joindata",method = {RequestMethod.POST}) // 회원가입 데이터
-    public String joindata(@Valid UsersDTO usersDTO,BindingResult bindingResult,RedirectAttributes redirectAttributes ){
-//        String users_id = req.getParameter("user_id");
-//        String user_pwd = req.getParameter("user_pwd");
-//        String user_name = req.getParameter("user_name");
-//        String user_email = req.getParameter("user_email");
-//        String phone = req.getParameter("phone");
-//        String birthdate = req.getParameter("birthdate");
-//        log.info(users_id);
-//        log.info(user_pwd);
-//        log.info(user_name);
-//        log.info(user_email);
-//        log.info(phone);
-//        log.info(birthdate);
-//
-//
-//
-//        UsersDTO usersDTO = UsersDTO.builder()
-//                .user_id(users_id)
-//                .user_pwd(user_pwd)
-//                .user_name(user_name)
-//                .user_email(user_email)
-//                .phone(phone)
-//                .birthdate(birthdate)
-//                .build();
-
-//        String user_id = usersService.register(usersDTO);
-
-
-        if(bindingResult.hasErrors()){
-            log.info("board errors ...");
-            redirectAttributes.addFlashAttribute("errors",bindingResult.getAllErrors()); //리다이렉션 시 담을 값
-            return "redirect: /users/join";
-        }
-
-        String user_id = usersService.register(usersDTO);
-        redirectAttributes.addFlashAttribute("result",user_id);
-
-        return "/users/login";  //sendRedirect
-
-//        return "users/login";
-  }
-
-
-
-
-    @ResponseBody
-    @RequestMapping(value = "/loginsss",method = {RequestMethod.POST})
+    @PostMapping(value = "/login")
     public String login(@RequestBody HashMap<String, Object> map, Model model,HttpServletResponse resp,HttpServletRequest req){
         String user_id = (String) map.get("user_id");
         String user_pwd = (String) map.get("user_pwd");
@@ -190,6 +123,31 @@ public class TestController {
 
         return rt;
     }
+
+
+//    @PostMapping(value = "login")
+//    public String loginPOST(@RequestBody HashMap<String, Object> map, HttpServletRequest request, RedirectAttributes rttr){
+//        log.info("Controller loginPOST");
+//        String user_id = (String) map.get("user_id");
+//        String user_pwd = (String) map.get("user_pwd");
+//        String login_auto = (String) map.get("auto");
+//
+//        HttpSession session = request.getSession();
+//
+////        UsersDTO login = usersService.userLogin(usersDTO);
+//        UsersDTO usersDTO = usersService.readOne(user_id);
+//
+//        String failMessage = "아이디 혹은 비밀번호가 잘못 되었습니다.";
+//
+//        if (usersDTO == null) {
+//            rttr.addFlashAttribute("loginFail", failMessage);
+//            return "redirect:/login";
+//        }
+//
+//        session.setAttribute("loginInfo", usersDTO.getUser_id());
+//        return "redirect:/main";
+//    }
+
 
 
 

@@ -12,12 +12,12 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CimamaDTO {
+public class CimemaDTO {
 
-    private long cinama_code;
-    private String cinama_name;
-    private String cinama_addrss;
-    private long cinama_seat_count;
+    private long cinema_code;
+    private String cinema_name;
+    private String cinema_addrss;
+    private long cinema_seat_count;
 
 
 }

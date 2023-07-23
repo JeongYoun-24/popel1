@@ -1,2 +1,3 @@
-package com.springboot.pople.repository;public class MovieRevRepository {
+package com.springboot.pople.repository;
+public class MovieRevRepository {
 }

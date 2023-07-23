@@ -1,2 +1,3 @@
-package com.springboot.pople.service.movierev;public class MovieRevServiceImpl {
+package com.springboot.pople.service.movierev;
+public class MovieRevServiceImpl {
 }

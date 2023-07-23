@@ -35,18 +35,24 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.session:spring-session-jdbc'
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation
-	implementation 'org.springframework.boot:spring-boot-starter-validation:3.1.1'
 
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.2.1'
+
+	implementation 'commons-io:commons-io:2.11.0'    /* Apache commons-io */
+	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4' /* Apache Commons FileUpload */
+	implementation 'net.coobird:thumbnailator:0.4.20'
+
 
 
 	// 3. queryDsl 라이브러리
@@ -55,8 +61,16 @@ dependencies {
 	implementation "com.querydsl:querydsl-core:${queryDslVersion}"
 
 	implementation 'org.modelmapper:modelmapper:3.1.1'
+	implementation 'org.springframework.boot:spring-boot-starter-validation:3.1.1'
+	implementation 'org.springframework.boot:spring-boot-starter-security:3.1.1'
 
 
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.1'
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 }
 
 tasks.named('test') {
@@ -82,4 +96,3 @@ configurations {
 	}
 	querydsl.extendsFrom compileClasspath
 }
-

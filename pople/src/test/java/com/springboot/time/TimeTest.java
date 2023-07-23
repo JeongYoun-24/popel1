@@ -1,2 +1,3 @@
-package com.springboot.time;public class TimeTest {
+package com.springboot.time;
+public class TimeTest {
 }

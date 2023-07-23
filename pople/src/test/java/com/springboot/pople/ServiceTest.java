@@ -31,12 +31,12 @@ public class ServiceTest {
         IntStream.rangeClosed(3, 5).forEach(i -> {
             // 객체 생성
             Users users = Users.builder()
-                    .user_id("title..." + i)
-                    .user_pwd("content..." + i)
-                    .user_name("user" + i)
-                    .user_email("aaa@naver.com" + i)
-                    .phone("010-4324-4234")
-                    .birthdate("19990101")
+//                    .user_id("title..." + i)
+//                    .user_pwd("content..." + i)
+//                    .user_name("user" + i)
+//                    .user_email("aaa@naver.com" + i)
+//                    .phone("010-4324-4234")
+//                    .birthdate("19990101")
 
                     .build();
 
@@ -52,13 +52,13 @@ public class ServiceTest {
         //log.info(boardService.getClass().getName());
 
         UsersDTO boardDto = UsersDTO.builder()
-                .user_id("bbb" )
-                .user_pwd("1234" )
-                .user_name("user1" )
-                .user_email("aaa@naver.com")
-                .phone("010-4324-4234")
-                .birthdate("19990101")
-                .build();
+//                .user_id("bbb" )
+//                .user_pwd("1234" )
+//                .user_name("user1" )
+//                .user_email("aaa@naver.com")
+//                .phone("010-4324-4234")
+//                .birthdate("19990101")
+               .build();
 
         String user_id = usersService.register(boardDto);
 
@@ -79,16 +79,7 @@ public class ServiceTest {
     }
 
 
-    @Test
-    @DisplayName(value = "전체 리스트 조회 테스트 ")
-    public void findByItemNmTest(){
-        String user_email = "aaa@naver.com2";
 
-        List<Users> usersDTO = usersRepository.findByUser_email(user_email);
-
-        log.info(usersDTO);
-
-    }
 
 
 

@@ -1,2 +1,3 @@
-package com.springboot.pople.service.time;public class TimeService {
+package com.springboot.pople.service.time;
+public interface TimeService {
 }

@@ -29,9 +29,32 @@ public class LoginController {
     @Autowired
     private UsersService usersService;
 
+//    @PostMapping("/loginCheck")
+//    public String loginCheck(@RequestBody UsersDTO usersDTO, HttpSession session , HttpServletResponse respones  ) {//HttpServletRequest request) {
+//        System.out.println("/user/logincheck : post");
+//        System.out.println("param : " + usersDTO);
+//
+//        // 매개값으로 httpsession 객체 받아서 사용
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        UsersDTO dbData =  usersService.readOne(usersDTO.getUser_id());
+//        // mybatis는 조회된 데이터가 없을경우 null이 온다.
+//        if(dbData != null) {
+//            if(encoder.matches(vo.getPassword(), dbData.getPassword())) {
+//                //로그인 성공 히원을 대상으로 세션 정보를 생성
+//                session.setAttribute("login", dbData);
+//                serivce.keepLogin(session.getId(), limitDate, vo.getAccount());
+//            }
+//            return "loginSuccess";
+//        }else {
+//            return "pwFail";
+//        }
+//    }else {
+//        return "idFail";
+//    }
+//
+//}
 
-
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/loginssss")
     public String login(@RequestBody HashMap<String, Object> map, Model model,HttpServletResponse resp,HttpServletRequest req){
         String user_id = (String) map.get("user_id");
         String user_pwd = (String) map.get("user_pwd");
@@ -68,8 +91,8 @@ public class LoginController {
 //        List<Users> usersDTO = usersService.allList();
 
 
-        String memberId = usersDTO.getUser_id();
-        String memberPwd = usersDTO.getUser_pwd();
+//        String memberId = usersDTO.getUserId();
+//        String memberPwd = usersDTO.getUserPwd();
 //        member = service.login(user_id);
 
 //        String memberId = member.getUser_id();
@@ -80,25 +103,25 @@ public class LoginController {
 
 
 
-        if(memberId.equals(user_id)) {
-
-            if(memberPwd.equals(user_pwd)) {
-
-                isOk = 1;
-                HttpSession session = req.getSession();
-                session.setAttribute("loginInfo", usersDTO.getUser_id());
-
-            }else {
-                isOk=2;
-                System.out.println("비밀번호 틀림");
-            }
-
-
-        }else {
-            isOk= -1;
-            System.out.println("아이디 정보 없음");
-
-        }
+//        if(memberId.equals(user_id)) {
+//
+//            if(memberPwd.equals(user_pwd)) {
+//
+//                isOk = 1;
+//                HttpSession session = req.getSession();
+//                session.setAttribute("loginInfo", usersDTO.getUserId());
+//
+//            }else {
+//                isOk=2;
+//                System.out.println("비밀번호 틀림");
+//            }
+//
+//
+//        }else {
+//            isOk= -1;
+//            System.out.println("아이디 정보 없음");
+//
+//        }
 
 
         if(isOk ==1) {

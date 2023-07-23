@@ -1,5 +1,8 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultrag.net.nz/thymeleaf/layout"
+	  xmlns:sec="http//www.thymeleaf.org/extras/spring-security"
+>
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport"
@@ -24,7 +27,7 @@
 		<div>
 			<nav class=" navbar navbar-expand-lg bg-body-tertiary">
 				<div class="alert">
-					<a th:href="main"><img style="height:50px" id="gg" src="https://img.cgv.co.kr/R2014/images/common/logo/logoRed.png"></a>
+					<a href="/main"><img style="height:50px" id="gg" src="https://img.cgv.co.kr/R2014/images/common/logo/logoRed.png"></a>
 
 				</div>
 				<div class="container-fluid">
@@ -79,12 +82,22 @@
 							<input type="text" style="height:35px" placeholder="영화검색">
 							<button class="btn" style="height:40px"><i class="bi bi-search"></i></button>
 						</div>
+
+
+
+
+
 						<div class="col-3">
 							<ul class="navbar-nav login ">
+								<li class="nav-item active" sec:authorize="hasAnyAuthority('ROLE_ADMIN')"><a class="nav-link" href="/movie/register">영화등록</a></li>
+								<li class="nav-item" sec:authorize="hasAnyAuthority('ROLE_ADMIN')"><a class="nav-link" href="/movie/item/items">영화관리</a></li>
 								<li class="nav-item">
-									<a class="nav-link " href="/users/loginpage">로그인</a>
+<!--									<a class="nav-link " href="/users/loginpage">로그인</a>-->
 								</li>
-								<li class="nav-item">
+								<li class="nav-item active" sec:authorize="isAnonymous()" > <a class="nav-link" href="/users/login">로그인</a></li>
+								<li class="nav-item" sec:authorize="isAuthenticated()"><span>[[${#authentication.principal.username}]]님</span> </li>
+								<li class="nav-item" sec:authorize="isAuthenticated()" > <a class="nav-link" href="/users/logout">로그아웃</a></li>
+								<li class="nav-item" sec:authorize="isAnonymous()">
 									<a class="nav-link" href="/users/join">회원가입</a>
 								</li>
 								<li class="nav-item">
@@ -98,6 +111,10 @@
 								</li>
 							</ul>
 						</div>
+
+
+
+
 					</div>
 				</div>
 			</nav>
@@ -105,7 +122,7 @@
 
 
 	</div>
-
-
+<hr>
+<input class="form-control">
 </body>
 </html>

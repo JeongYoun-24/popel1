@@ -1,2 +1,3 @@
-package com.springboot.pople.service.seat;public class SeatService {
+package com.springboot.pople.service.seat;
+public interface SeatService {
 }

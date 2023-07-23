@@ -1,2 +1,3 @@
-package com.springboot.tickting;public class TicktingTest {
+package com.springboot.tickting;
+public class TicktingTest {
 }

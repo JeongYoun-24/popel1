@@ -11,8 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Log4j2
@@ -28,11 +27,15 @@ public class usersServiceImpl implements UsersService{
 
 
 
+
+
+
+
     @Override
     public String register(UsersDTO usersDTO) {
         // dto-> entity로 데이터 복사
         Users board = modelMapper.map(usersDTO,Users.class);
-        String user_id = usersRepository.save(board).getUser_id();
+        String user_id = usersRepository.save(board).getUserid();
 
         return user_id;
     }
@@ -49,10 +52,10 @@ public class usersServiceImpl implements UsersService{
     @Override
     public void modify(UsersDTO usersDTO) {
 
-        Optional<Users> result =  usersRepository.findById(usersDTO.getUser_id());
+        Optional<Users> result =  usersRepository.findById(usersDTO.getUserid());
         Users board = result.orElseThrow();
 
-        board.change(usersDTO.getUser_pwd(),usersDTO.getUser_name(),usersDTO.getUser_email());
+        board.change(usersDTO.getPassword(),usersDTO.getName(),usersDTO.getEmail());
         usersRepository.save(board);
 
     }
@@ -62,38 +65,51 @@ public class usersServiceImpl implements UsersService{
         usersRepository.deleteById(user_id);
     }
 
-    @Override
-    public UsersDTO findByLoginId(String user_id, String user_pwd) {
-        return null;
-    }
+//    @Override
+//    public UsersDTO findByLoginId(String user_id, String user_pwd) {
+//        return null;
+//    }
+//
+//    @Override
+//    public List<Users> allList() {
+//        List<Users> itemList = usersRepository.findAll();
+//
+//
+//        return itemList;
+//    }
 
-    @Override
-    public List<Users> allList() {
-        List<Users> itemList = usersRepository.findAll();
+//    @Override
+//    public UsersDTO loginId(String user_email) { // 이메일로 비밀번호 찾기
+//        Users users = usersRepository.findByuser_email(user_email);
+//        ;
+//        UsersDTO usersDTO = modelMapper.map(users,UsersDTO.class);
+//
+//        return usersDTO;
+//    }
 
+//    @Override
+//    public UsersDTO loginPwd(String user_id, String user_email) { //아이디와 이메일로 비밀번호 찾기
+//        Optional<Users> result = usersRepository.findById(user_id);
+//        Users users = result.orElseThrow();
+//        UsersDTO usersDTO = modelMapper.map(users,UsersDTO.class);
+//
+//        return null;
+//    }
 
-        return itemList;
-    }
-
-    @Override
-    public UsersDTO loginId(String user_email) { // 이메일로 비밀번호 찾기
-        Optional<Users> result = usersRepository.findById(user_email);
-        Users users = result.orElseThrow();
-        UsersDTO usersDTO = modelMapper.map(users,UsersDTO.class);
-
-        return null;
-    }
-
-    @Override
-    public UsersDTO loginPwd(String user_id, String user_email) { //아이디와 이메일로 비밀번호 찾기
-        Optional<Users> result = usersRepository.findById(user_id);
-        Users users = result.orElseThrow();
-        UsersDTO usersDTO = modelMapper.map(users,UsersDTO.class);
-
-        return null;
-    }
-
-
+//    @Override
+//    public UsersDTO selectOne(String account) {
+//        return mapper.selectOne(account);
+//    }
+//
+//    @Override
+//    public void keepLogin(String session, Date limitTime, String account) {
+//        Map<String, Object> datas = new HashMap<>();
+//        datas.put("sessionId", session);
+//        datas.put("limitTime", limitTime);
+//        datas.put("account", account);
+//
+//        mapper.keepLogin(datas);
+//    }
 
 
 }

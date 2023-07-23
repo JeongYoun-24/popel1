@@ -1,2 +1,3 @@
-package com.springboot.pople.repository;public class SeatRepository {
+package com.springboot.pople.repository;
+public class SeatRepository {
 }

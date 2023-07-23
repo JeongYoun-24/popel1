@@ -1,2 +1,3 @@
-package com.springboot.timetable;public class TimeTableTest {
+package com.springboot.timetable;
+public class TimeTableTest {
 }

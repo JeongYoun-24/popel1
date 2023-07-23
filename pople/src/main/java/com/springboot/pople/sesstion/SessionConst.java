@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class SessionConst {
 
-    public static final String LOGIN_MEMBER = "loignMember";
+    public static final String LOGIN_MEMBER = "login";
 
     private Map<String, Object> sessionStore = new ConcurrentHashMap<>();
 

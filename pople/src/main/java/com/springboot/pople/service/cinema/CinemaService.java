@@ -1,2 +1,5 @@
-package com.springboot.pople.service.cinema;public class CinemaService {
+package com.springboot.pople.service.cinema;
+public interface CinemaService {
+
+
 }

@@ -1,7 +1,9 @@
 package com.springboot.pople.controller;
 
 import com.springboot.pople.dto.UsersDTO;
+import com.springboot.pople.sesstion.SessionConst;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Member;
+import java.net.http.HttpRequest;
 import java.util.HashMap;
 
 @Controller
@@ -17,24 +21,23 @@ import java.util.HashMap;
 @RequestMapping("/*")
 public class MainController{
 
+    @Autowired
+    private SessionConst sessionConst;
 
 
-
-        @GetMapping(value = "/main")
-        public String main(@SessionAttribute(name = "loginInfo", required = false)HttpServletRequest request, Model model){
-            String user_name = "회원";
+        @GetMapping(value = "/main") // HashMap<String, Object> map
+        public String main(HttpServletRequest request,Model model) {
 
 
-        model.addAttribute("user_name",user_name);
 
 
             return "views/main";
         }
     @GetMapping(value = "index")
-    public void indexGET(@SessionAttribute(name = "loginUser", required = false)HashMap<String, Object> map, Model model) {
+    public void indexGET(@SessionAttribute(name = "loginUser", required = false)UsersDTO usersDTO ,Model model) {
         log.info("Controller indexGET");
 
-        model.addAttribute("loginUser", map);
+        model.addAttribute("loginUser", usersDTO);
     }
 
 

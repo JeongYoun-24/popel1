@@ -14,10 +14,10 @@ import javax.persistence.Id;
 @Builder
 public class CimemaDTO {
 
-    private long cinema_code;
-    private String cinema_name;
-    private String cinema_addrss;
-    private long cinema_seat_count;
+    private long cinemaCode;
+    private String cinemaName;
+    private String cinemaAddrss;
+    private long cinemaSeatCount;
 
 
 }

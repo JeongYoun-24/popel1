@@ -1,2 +1,3 @@
-package com.springboot.pople.service.tickting;public class TicktingService {
+package com.springboot.pople.service.tickting;
+public interface TicktingService {
 }

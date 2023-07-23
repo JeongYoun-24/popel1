@@ -1,2 +1,4 @@
-package com.springboot.pople.service.timetable;public class TimeTableService {
+package com.springboot.pople.service.timetable;
+
+public interface TimeTableService {
 }

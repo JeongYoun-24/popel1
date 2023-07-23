@@ -27,7 +27,7 @@ import java.util.UUID;
 
 @Controller
 @Log4j2
-//@RequestMapping("/users")
+@RequestMapping("/usersssssss")
 public class TestController {
 
     @Autowired
@@ -92,13 +92,13 @@ public class TestController {
         return "/users/login";  //sendRedirect
 
 //        return "users/login";
-  }
+    }
 
 
 
 
     @ResponseBody
-    @RequestMapping(value = "/loginsss",method = {RequestMethod.POST})
+    @RequestMapping(value = "/login",method = {RequestMethod.POST}, produces="application/json;charset=UTF-8")
     public String login(@RequestBody HashMap<String, Object> map, Model model,HttpServletResponse resp,HttpServletRequest req){
         String user_id = (String) map.get("user_id");
         String user_pwd = (String) map.get("user_pwd");
@@ -135,8 +135,8 @@ public class TestController {
 //        List<Users> usersDTO = usersService.allList();
 
 
-        String memberId = usersDTO.getUser_id();
-        String memberPwd = usersDTO.getUser_pwd();
+//        String memberId = usersDTO.getUserId();
+//        String memberPwd = usersDTO.getUserPwd();
 //        member = service.login(user_id);
 
 //        String memberId = member.getUser_id();
@@ -147,25 +147,25 @@ public class TestController {
 
 
 
-        if(memberId.equals(user_id)) {
-
-            if(memberPwd.equals(user_pwd)) {
-
-                isOk = 1;
-                HttpSession session = req.getSession();
-                session.setAttribute("loginInfo", usersDTO.getUser_id());
-
-            }else {
-                isOk=2;
-                System.out.println("비밀번호 틀림");
-            }
-
-
-        }else {
-            isOk= -1;
-            System.out.println("아이디 정보 없음");
-
-        }
+//        if(memberId.equals(user_id)) {
+//
+//            if(memberPwd.equals(user_pwd)) {
+//
+//                isOk = 1;
+//                HttpSession session = req.getSession();
+//                session.setAttribute("login", usersDTO.getUserId());
+//
+//            }else {
+//                isOk=2;
+//                System.out.println("비밀번호 틀림");
+//            }
+//
+//
+//        }else {
+//            isOk= -1;
+//            System.out.println("아이디 정보 없음");
+//
+//        }
 
 
         if(isOk ==1) {

@@ -1,5 +1,7 @@
 package com.springboot.pople.entity;
 
+import com.springboot.pople.constant.MovieStatus;
+import com.springboot.pople.dto.movie.MovieFormDTO;
 import com.springboot.pople.dto.movie.MovieImgDTO;
 import lombok.*;
 
@@ -18,12 +20,12 @@ import java.util.List;
 public class Movie {  // 영화
 
     @Id
-    @Column(nullable = false)
+    @Column(nullable = false,name = "movie_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long movieno;  // 영화 번호
+    private Long movieid;  // 영화 번호
     @Column(nullable = false,length = 100)
     private String movieName;  //  양화 제목
-    @Column(nullable = false,length = 100)
+    @Column(length = 100)
     private String  moviePoster;  // 영화 이미지 (포스터)
     @Column(nullable = false,length = 1000)
     private String movieSummary; // 영화 줄거리
@@ -33,7 +35,7 @@ public class Movie {  // 영화
     private String moveiRating; // 영화 관람 등급
 
     private String movieDate;  //   영화 개봉일
-    private Boolean movieStatus;  // 영화 게시 여부
+    private MovieStatus movieStatus;  // 영화 게시 여부
 
 
     public void change(String movie_name,String movie_poster,String movie_summary){
@@ -48,9 +50,15 @@ public class Movie {  // 영화
     }
     public void change2(Boolean movie_status){ // 게시여부 수정
         this.movieStatus = movieStatus;
+    } // 게시 여부 수정
+
+    public void updateItem(MovieFormDTO movieFormDTO){
+        this.movieName = movieFormDTO.getMovieName();
+//        this.moviePoster = movieFormDTO.get;
+        this.movieSummary = movieFormDTO.getMovieSummary();
+        this.movieDate = movieFormDTO.getMovieDate();
+        this.movieStatus = movieFormDTO.getMovieStatus();
     }
-
-
 
 
 

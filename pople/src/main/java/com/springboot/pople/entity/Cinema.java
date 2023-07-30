@@ -14,20 +14,25 @@ import javax.persistence.*;
 public class Cinema {
 
     @Id
-    @Column(nullable = false)
+    @Column(nullable = false,name = "cinema_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long cinamano;
+    private long cinemaid;
     @Column(nullable = false,length = 50)
-    private String cinamaName;
+    private String cinemaName;
     @Column(nullable = false,length = 500)
-    private String cinamaAddrss;
+    private String cinemaAddrss;
     @Column(nullable = false)
-    private long cinamaSeatCount;
+    private long cinemaSeatCount;
 
-    public void change(String cinama_name,String cinama_addrss,long cinama_seat_count){
-        this.cinamaName = cinamaName;
-        this.cinamaAddrss = cinamaAddrss;
-        this.cinamaSeatCount = cinamaSeatCount;
+    @Column(name = "x_axis")
+    private String xaxis;  // x좌표
+    @Column(name = "y_axis")
+    private String yaxis; // y좌표
+
+    public void change(String cinemaName,String cinemaAddrss,long cinemaSeatCount){
+        this.cinemaName = cinemaName;
+        this.cinemaAddrss = cinemaAddrss;
+        this.cinemaSeatCount = cinemaSeatCount;
 
     }
 

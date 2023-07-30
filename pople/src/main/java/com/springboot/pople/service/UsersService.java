@@ -12,6 +12,18 @@ public interface UsersService {
     public void modify(UsersDTO usersDTO);
     public void remove(String user_id);
 
+
+    public UsersDTO login(String name , String email);
+    public UsersDTO loginId(String email);
+
+    public UsersDTO loginPwd(String userid,String email);
+
+    public Users pwdUpdate(UsersDTO usersDTO);
+
+
+    public Users saveUsers (Users users);
+
+
 //    public UsersDTO findByLoginId(String user_id,String user_pwd);
 //
 //    public List<Users> allList(); // 전체 리스트

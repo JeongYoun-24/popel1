@@ -1,14 +1,19 @@
 package com.springboot.pople.controller.movie;
 
 
+import com.springboot.pople.dto.movie.UploadFileDTO;
 import com.springboot.pople.dto.movie.UploadResultDTO;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Value;
 
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.http.server.reactive.HttpHandler;
@@ -16,9 +21,7 @@ import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.HttpRequestHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.support.HttpRequestHandlerServlet;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.util.FileCopyUtils;
@@ -32,9 +35,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Log4j2
 @RestController
@@ -47,93 +48,100 @@ public class UploadController {
 
 //    public ResponseEntity<List<UploadResultDTO>>
 
-    @GetMapping("/display")
-    public ResponseEntity<byte[]> getFile(String fileName){
+    @ApiOperation(value="Upload POST", notes = "POST방식으로 파일 등록")
+    @PostMapping(value="/uplad",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public List<UploadResultDTO> upload(UploadFileDTO uploadFileDTO){
+        log.info("==> "+uploadFileDTO);
 
-        ResponseEntity<byte[]> result = null;
-        try {
-            String srcFileName = URLDecoder.decode(fileName,"UTF-8");
-            log.info("fileNmae : "+srcFileName);
+        final List<UploadResultDTO> list = new ArrayList<>();
 
-            File file = new File(uploadPath+File.separator+srcFileName);
-            log.info("file :"+file);
+        // 전송한(첨부파일) 파일있는지 체크
+        if (uploadFileDTO.getFiles() != null){
+            uploadFileDTO.getFiles().forEach(multipartFile -> {
 
-            HttpHeaders handler = new HttpHeaders();
+                String originalName = multipartFile.getOriginalFilename();
+                log.info("=> upload file name :"+originalName);
 
-        handler.add("Content-Type", Files.probeContentType(file.toPath()));
-        result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file),handler,HttpStatus.OK);
-        }catch (Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+                // 이미지 이름 중복을 없애기 위해
+                String uuid = UUID.randomUUID().toString();
+                Path savePath = Paths.get(uploadPath, uuid+"_"+originalName);
+                boolean image = false;
 
+                try {
+                    multipartFile.transferTo(savePath); // 파일 업로드 완료
 
-        return result;
+                    // 이미지 파일인 경우 섬네일 파일 생성하기
+                    if (Files.probeContentType(savePath).startsWith("image")){
+                        image = true;
+                        File thumbFile = new File(uploadPath, "s_"+uuid+"_"+originalName);
+                        Thumbnailator.createThumbnail(savePath.toFile(), thumbFile, 200,200);
+                    }
+
+                    list.add(UploadResultDTO.builder()
+                            .uuid(uuid)
+                            .fileName(originalName)
+                            .img(image)// true, false
+                            .build());
+
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+            });// end forEach()
+
+            return list;
+        } // end if
+
+        return null;
     }
 
-    @PostMapping("/removeFile")
-    public ResponseEntity<Boolean>removeFile(String fileName){
-        String srcFileName =null;
+    // 첨부(이미지)파일 조회
+    @ApiOperation(value="view 파일", notes = "GET방식으로 첨부파일 조회")
+    @GetMapping("/view/{fileName}")
+    public ResponseEntity<Resource> viewFileGET(@PathVariable String fileName){
+
+        Resource resource = new FileSystemResource(uploadPath+File.separator+fileName);
+        HttpHeaders headers = new HttpHeaders();
+
         try {
-            srcFileName = URLDecoder.decode(fileName,"UTF-8");
-            File file = new File(uploadPath+File.separator+srcFileName);
-            boolean result = file.delete();
-
-            File thumbnail = new File(file.getParent(),"s_"+file.getName());
-            result = thumbnail.delete();
-
-            return new ResponseEntity<>(result,HttpStatus.OK);
-        }catch (UnsupportedEncodingException e){
-            e.printStackTrace();
-            return new ResponseEntity<>(false, HttpStatus.INTERNAL_SERVER_ERROR);
+            headers.add("Content-Type", Files.probeContentType(resource.getFile().toPath()));
+        } catch (Exception e){
+            return ResponseEntity.internalServerError().build();
         }
-
-
+        return ResponseEntity.ok().headers(headers).body(resource);
     }
 
 
+    // 첨부파일 삭제
+    @ApiOperation(value="remove 파일", notes = "DELETE방식으로 첨부파일 삭제")
+    @DeleteMapping("/remove/{fileName}")
+    public Map<String, Boolean> removeFile(@PathVariable String fileName){
+
+        Resource resource = new FileSystemResource(uploadPath+File.separator+fileName);
+        String resourceName = resource.getFilename();
+
+        Map<String, Boolean> resultMap = new HashMap<>();
+        boolean removed = false;
 
 
-    @PostMapping("/upload")
-    public ResponseEntity<List<UploadResultDTO>> uploadFile (MultipartFile[] uploadFiles){
+        try {
+            // 컨텐츠 타입 추출
+            String contentType = Files.probeContentType(resource.getFile().toPath());
+            removed = resource.getFile().delete(); // 파일 삭제
 
-        List<UploadResultDTO> resultDTOList = new ArrayList<>();
-
-
-        for (MultipartFile uploadFile : uploadFiles){
-            if(uploadFile.getContentType().startsWith("image")==false){
-                log.warn("this file is not image type");
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-            }
-            // 실제 파일 이름 전체 경로
-            String orginName = uploadFile.getOriginalFilename();
-            String fileName = orginName.substring(orginName.lastIndexOf("\\")+1);
-            log.info("fileName = "+fileName);
-            // 날짜 파일 생성
-            String folderPath = makeFolder();
-            // uuid
-            String uuid = UUID.randomUUID().toString();
-
-            // 저장할 파일 이름
-            String saveName = uploadPath + File.separator+folderPath+File.separator+uuid+"_"+fileName;
-            Path sevePath = Paths.get(saveName);
-            try {
-                uploadFile.transferTo(sevePath);// 실제 이미지 저장
-                // 섬네일 생성
-                String thumbnailSaveName = uploadPath+File.separator+folderPath+File.separator+"s_"+uuid+"_"+fileName;
-                // 섬네일 파일 이름 s_ 시작하게
-                File thumbnailFile = new File(thumbnailSaveName);
-                // 섬네일 생성
-                 Thumbnailator.createThumbnail(sevePath.toFile(),thumbnailFile,400,400);
-
-                resultDTOList.add(new UploadResultDTO(fileName,uuid,folderPath));
-            }catch (IOException e) {
-                e.printStackTrace();
+            // 섬네일(이미지)파일이 존재하면
+            if (contentType.startsWith("image")){
+                File thumbnailFile = new File(uploadPath+File.separator+"s_"+fileName);
+                thumbnailFile.delete();
             }
 
-
+        } catch (Exception e){
+            log.error(e.getMessage());
         }
 
-        return new ResponseEntity<>(resultDTOList,HttpStatus.OK);
+        // 파일 삭제 결과 값 저장
+        resultMap.put("result", removed);
+
+        return resultMap;
     }
 
     private String makeFolder(){

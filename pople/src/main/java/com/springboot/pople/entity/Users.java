@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class Users {
 
     @Id
-    @Column(nullable = false)
+    @Column(nullable = false,name = "user_id")
     private String userid;
     @Column(nullable = false)
     private String password;
@@ -35,12 +35,18 @@ public class Users {
     private LocalDateTime regDate;
 
     // update(변경) aptjem 정의
-    public void change(String user_pwd,String user_name,String user_email){
+    public void change(String password,String name,String email){
         this.password = password;
         this.name = name;
         this.email = email;
 
     }
+    public void pwdUpdate(String password){
+        this.password = password;
+
+    }
+
+
 
     public static Users createMember(UsersDTO usersDTO, PasswordEncoder passwordEncoder){
         Users users = new Users();
@@ -50,13 +56,12 @@ public class Users {
         users.setUserid(usersDTO.getUserid());
         users.setPhone(usersDTO.getPhone());
         users.setBirthDate(usersDTO.getBirthDate());
-        users.setRegDate(usersDTO.getRegDate());
 
         // 암호화
         String password = passwordEncoder.encode(usersDTO.getPassword());
         users.setPassword(password);
-        users.setRole(Role.USER);
-//        users.setRole(Role.ADMIN);
+//        users.setRole(Role.USER);
+        users.setRole(Role.ADMIN);
 //        users.setRole(Role.MANAGER);
 
         return users;

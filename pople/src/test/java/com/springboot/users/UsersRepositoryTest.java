@@ -46,7 +46,7 @@ public class UsersRepositoryTest {
 
         usersDTO.setUserid("dobi");
         usersDTO.setPassword("1234");
-        usersDTO.setName("관리자");
+        usersDTO.setName("관리자1");
         usersDTO.setEmail("dobi@naver.com");
         usersDTO.setPhone("010-1231-3123");
         usersDTO.setBirthDate("19990101");

@@ -34,7 +34,7 @@ public class MovieSearchImpl extends QuerydslRepositorySupport implements  Movie
         booleanBuilder.or(movie.movieSummary.contains("1"));
 
         query.where(booleanBuilder);
-        query.where(movie.movieno.gt(0L));
+        query.where(movie.movieid.gt(0L));
 
         // 페이징 처리
         this.getQuerydsl().applyPagination(pageable, query);
@@ -75,7 +75,7 @@ public class MovieSearchImpl extends QuerydslRepositorySupport implements  Movie
             query.where(booleanBuilder);
         }// end if
 
-        query.where(movie.movieno.gt(0L));
+        query.where(movie.movieid.gt(0L));
 
         // 페이징 처리
         this.getQuerydsl().applyPagination(pageable, query);
@@ -113,13 +113,13 @@ public class MovieSearchImpl extends QuerydslRepositorySupport implements  Movie
             query.where(booleanBuilder);
         }// end if
 
-        query.where(movie.movieno.gt(0L));
+        query.where(movie.movieid.gt(0L));
 
         JPQLQuery<MovieListCountDTO> dtoQuery =
                 query.select(
                         Projections.bean(
                                 MovieListCountDTO.class,
-                                movie.movieno,
+                                movie.movieid,
                                 movie.movieName,
                                 movie.moveiRating,
                                 movie.movieDate,

@@ -4,8 +4,10 @@ import com.springboot.pople.dto.MovieDTO;
 import com.springboot.pople.dto.MovieListCountDTO;
 import com.springboot.pople.dto.PageRequestDTO;
 import com.springboot.pople.dto.PageResponseDTO;
+import com.springboot.pople.dto.movie.MovieFormDTO;
 import com.springboot.pople.service.movie.MovieService;
 
+import com.springboot.pople.service.movie.MovieService2;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -15,14 +17,16 @@ import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -37,6 +41,7 @@ public class MovieController {
 
     private static String ARTICLE_IMAGE_REPO = "C:\\web\\pople\\src\\main\\resources\\static\\imgs";
 
+    private final MovieService2 movieService2;
     private final MovieService movieService;
 
 
@@ -103,6 +108,92 @@ public class MovieController {
         model.addAttribute("insertOk","등록완료");
         return "movie/register";
     }
+
+    @GetMapping(value="/admin/register")
+    public String itemForm(Model model){
+        log.info("===> Get /admin/item/new 요청");
+
+        model.addAttribute("movieFormDTO", new MovieFormDTO());
+        return "movie/register";
+    }
+
+    // 상품 정보 DB등록 처리
+    @PostMapping(value="/admin/register")
+    public String itemNew(@Valid MovieFormDTO movieFormDTO, BindingResult bindingResult, Model model,
+            @RequestParam("movieImgFile") List<MultipartFile> movieImgFileList   //"itemImgFile" 클라이언트로 넘겨받은 매개변수(files객체)
+    ){
+        log.info("===> Post /movie/admin/register 요청");
+
+        if (bindingResult.hasErrors()){
+            return "movie/register";
+        }
+
+        if(movieImgFileList.get(0).isEmpty() && movieFormDTO.getId() == null){
+            model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수 입력 값입니다.");
+            return "movie/register";
+        }
+
+        try {
+            movieService2.saveItem(movieFormDTO, movieImgFileList);
+        }catch (Exception e){
+            model.addAttribute("errorMessage","상품 등록 중 에러가 발생하였습니다.");
+            return "movie/register";
+        }
+
+        return "redirect:/main";
+    }
+
+    // 상품 조회
+    @GetMapping(value = "/admin/movie/{movieId}")
+    public String itemDtl(@PathVariable("movieId") Long movieId, Model model){
+
+        try{
+            MovieFormDTO movieFormDTO = movieService2.getMovieDtl(movieId);
+            model.addAttribute("movieFormDTO",movieFormDTO);
+            log.info("==> itemformDTO: "+movieFormDTO.getMovieImgDTOList());
+
+        }catch (EntityNotFoundException e){
+
+            model.addAttribute("errorMessage","존재하지 않는 상품입니다.");
+            model.addAttribute("movieFormDTO", new MovieFormDTO());
+
+            return "movie/register";
+        }
+
+        return "movie/register";
+    }
+
+    // 상품 정보 수정
+    @PostMapping(value="/admin/item/{itemId}")
+    public String itemUpdate(
+            @Valid MovieFormDTO movieFormDTO,
+            BindingResult bindingResult,
+            @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList,
+            Model model){
+
+        // 데이터 검증 확인
+        if (bindingResult.hasErrors()){
+            return "item/itemForm";
+        }
+        // 첨부파일 여부 체크
+        if (itemImgFileList.get(0).isEmpty() && movieFormDTO.getId() == null){
+            model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수 입력 값입니다.");
+            return "item/itemForm";
+        }
+
+        // 상품 수정 서비스 호출
+        try{
+            movieService2.updateItem(movieFormDTO, itemImgFileList);
+        }catch (Exception e){
+            model.addAttribute("errorMessage","상품 수정 중 에러가 발생했습니다.");
+            return "item/itemForm";
+        }
+
+        return "redirect:/";
+    }
+
+
+
 
 
 //    private Map<String, String> upload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

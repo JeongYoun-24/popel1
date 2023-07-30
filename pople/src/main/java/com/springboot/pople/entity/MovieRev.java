@@ -12,15 +12,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "MovieRev")
-public class MovieRev {
+public class MovieRev { // 영화 리뷰
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long revno;
+    @Column(name = "rev_id")
+    private Long revid;  // 리뷰 번호
     @ManyToOne(fetch = FetchType.LAZY)
-    private Users users;
+    @JoinColumn(name = "user_id")
+    private Users users;   // 회원 아이디
     @ManyToOne(fetch = FetchType.LAZY)
-    private Movie movie;
+    @JoinColumn(name = "movie_id")
+    private Movie movie;  // 영화 번호
 
     @Column(nullable = false,length = 500)
     private String revTitle;

@@ -15,9 +15,9 @@ import java.util.Map;
 public interface MovieService {
 
     public Long register(MovieDTO movieDTO);
-    public MovieDTO readOne(Long movie_code);
+    public MovieDTO readOne(Long movieid);
     public void modify(MovieDTO movieDTO);
-    public void remove(Long movie_code);
+    public void remove(Long movieid);
 
 //    default Map<String,Object> dtoToEntity(MovieDTO movieDTO){
 //        Map<String,Object> entityMap = new HashMap<>();

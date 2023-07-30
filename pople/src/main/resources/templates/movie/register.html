@@ -12,9 +12,117 @@
 <body>
 
 <div layout:fragment="content" class="m-2 p-2 ">
-		<h1 class="mt-5"> 영화 등록 페이지 </h1>
-		<h3  th:if="${isOk}" th:text="${isOk}"></h3>
 
+	<div class="row mt-3  px-2">
+		<div class="col">
+			<div class="card">
+				<h5 class="card-header py-3">영화 등록</h5>
+				<div class="card-body">
+					<!-- Item register content -->
+					<form action="" method="post" enctype="multipart/form-data"
+						  th:object="${movieFormDTO}" >
+
+						<input type="hidden" th:field="*{id}">
+
+						<div class="input-group mt-3  ">
+							<select class="form-select" th:field="*{movieStatus}" aria-label="Default select ">
+								<option value="OPEN">개봉</option>
+								<option value="CLOSE">미개봉</option>
+							</select>
+						</div>
+
+						<!-- 상품명 -->
+						<div class="input-group mt-3  ">
+							<div class="input-group-prepend">
+								<span class="input-group-text">영화명</span>
+							</div>
+							<input type="text"  class="form-control" id="movieName" placeholder="영화명을 입력해주세요"
+								   th:field="*{movieName}" >
+						</div>
+						<p th:if="${#fields.hasErrors('movieName')}" th:errors="#{movieName}" class="error"></p>
+						<!-- 가격 -->
+						<div class="input-group mt-3  ">
+							<div class="input-group-prepend">
+								<span class="input-group-text">관람등급</span>
+							</div>
+							<input type="text"  class="form-control" id="moveiRating" placeholder="영화 줄거리 입력해주세요"
+								   th:field="*{moveiRating}" >
+						</div>
+						<p th:if="${#fields.hasErrors('moveiRating')}" th:errors="#{moveiRating}" class="error"></p>
+
+						<!-- 재고 -->
+						<div class="input-group mt-3  ">
+							<div class="input-group-prepend">
+								<span class="input-group-text">러닝타임</span>
+							</div>
+							<input type="text"  class="form-control" id="movieTime" placeholder="상영시간을 입력해주세요"
+								   th:field="*{movieTime}" >
+						</div>
+						<p th:if="${#fields.hasErrors('movieTime')}" th:errors="#{movieTime}" class="error"></p>
+
+						<!-- 상품 상세 내용 -->
+						<div class="input-group mt-3  ">
+							<div class="input-group-prepend">
+								<span class="input-group-text">상품 상세 내용</span>
+							</div>
+							<textarea type="text"  class="form-control" id="movieSummary" rows="10"
+									  th:field="*{movieSummary}" ></textarea>
+						</div>
+						<p th:if="${#fields.hasErrors('movieSummary')}" th:errors="#{movieSummary}" class="error"></p>
+
+						<!-- 상품 등록시 적용하는 상품이미지 등록 -->
+						<div th:if="${#lists.isEmpty(movieFormDTO.movieImgDTOList)}">
+							<div class="form-group" th:each="num: ${#numbers.sequence(1,2)}">
+								<div class="mb-3 img-div">
+									<label for="movieImgFile" class="form-label" th:text="상품이미지+${num}"></label>
+									<input class="form-control" type="file" name="movieImgFile" id="movieImgFile">
+								</div>
+							</div>
+						</div>
+
+						<!-- 상품 수정시 적용하는 상품이미지 -->
+						<div th:if="${not #lists.isEmpty(movieFormDTO.movieImgDTOList)}">
+							<div class="form-group" th:each="movieImgDTO, status: ${itemFormDTO.movieImgDTOList}">
+								<div class="mb-3 img-div">
+
+									<input class="form-control" type="file" name="movieImgFile" id="itemImgFile2">
+									<!-- 상품 수정시 어떤 이미지가 수정되었는지 체크하기위해 상품이미지 아이디값을 설정 -->
+									<input type="hidden" name="movieImgIds" th:value="${movieImgDTO.id}">
+									<label th:text="${not #strings.isEmpty(movieImgDTO.oriImgName)} ? ${movieImgDTO.oriImgName} : '상품이미지'+${status.index+1} "
+										   class="form-label"></label>
+								</div>
+							</div>
+						</div>
+
+						<!-- 상품정보 저장 버튼 -->
+						<div th:if="${#strings.isEmpty(movieFormDTO.id)}" class="text-center my-2">
+							<button th:formaction="@{/movie/admin/register}" type="submit" class="btn btn-primary">저장</button>
+						</div>
+						<!-- 상품정보 수정 버튼 -->
+						<div th:unless="${#strings.isEmpty(movieFormDTO.id)}" class="text-center my-2">
+							<button th:formaction="@{'/admin/item/'+${movieFormDTO.id} }" type="submit" class="btn btn-primary">수정</button>
+						</div>
+
+
+						<!--스프링 시큐리티에서는 GET방식을 제외한 POST/PUT/DELETE요청에 CSRF요청-->
+						<!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
+
+
+					</form>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+	<!--<h1 class="mt-5"> 영화 등록 페이지 </h1>
+		<h3  th:if="${isOk}" th:text="${isOk}"></h3>
 		<div>
 			<form th:action="@{/movie/register}" th:method="post">
 				<div class="form-group">
@@ -33,7 +141,7 @@
 						</div>
 					</div>
 					<div class="custom-file">
-<!--						<input type="file" class="custom-file-input files" id="fileInput" name="moviePoster" multiple>-->
+&lt;!&ndash;						<input type="file" class="custom-file-input files" id="fileInput" name="moviePoster" multiple>&ndash;&gt;
 						<input type="file"  name="moviePoster" id="moviePoster"
 							   onchange="readURL(this)"
 							   class="form-control  p-2" multiple>
@@ -62,7 +170,7 @@
 
 				<button type="submit" class="btn btn-primary">등록하기 </button>
 			</form>
-		</div>
+		</div>-->
 
 
 	</div>
@@ -72,7 +180,11 @@ $(function(){
 
 
 })
-
+// 서버로부터 에러 메시지가 전달 받았을 경우 alert()호출 하는 부분
+        var errorMessage = [[${errorMessage}]];
+        if(errorMessage != null){
+            alert(errorMessage);
+        }
 
 $('#show2').hide()
 	function readURL(moviePoster){

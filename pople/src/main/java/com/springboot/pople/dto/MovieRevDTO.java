@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class MovieRevDTO {
 
-    private Long revNo;
+    private Long revid;
     private String userId;
-    private Long movieCode;
+    private Long movieId;
     private String revTitle;
     private String revContent;
     private LocalDateTime revDate;

@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class MovieDTO {
 
-    private Long movieCode;  // 영화 번호
+    private Long movieid;  // 영화 번호
     private String movieName;  //  양화 제목
     private String  moviePoster;  // 영화 이미지 (포스터)
     private String movieSummary; // 영화 줄거리
@@ -26,6 +26,7 @@ public class MovieDTO {
     private String moveiRating; // 영화 관람 등급
     private String movieDate;  //   영화 개봉일
     private Boolean movieStatus;  // 영화 게시 여부
+
 
 
     @Builder.Default

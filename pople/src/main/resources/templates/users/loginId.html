@@ -38,6 +38,7 @@
 	<div class="">
 		<div>
 			<div class="mt-5">
+
 				<div class="w-50 m-auto d-flex justify-content-center mt-5">
 
 					<div id="H1" class="mt-5"> <!-- 아이디 찾기  -->
@@ -46,17 +47,23 @@
 							<div  class="border border-black p-2"><button  class="btn">아이디 찾기 </button></div>
 							<div  class="border  p-2 "><button id="H2Btn" class="btn"> 비밀번호 찾기</button></div>
 						</div>
-						<form action="/" method="post">
+						<div class="" id="idmsg">
+							<span>아이디는</span><span class="" id="user_id"></span> <span>입니다</span>
+						</div>
+						<form action="/" >
 							<div class="row ">
 								<div class="mt-3">
-									<input type="text" name="user_name" id="user_name" value="" class="form-control" style="height: 50px;" placeholder="이름">
+									<input type="text" name="name" id="name" value="" class="form-control" style="height: 50px;" placeholder="이름">
 
 								</div>
 								<div class="mt-2">
-									<input type="email" name="user_email" id="user_email" value=""  class="form-control" style="height: 50px;" placeholder="이메일">
+									<input type="email" name="email" id="email" value=""  class="form-control" style="height: 50px;" placeholder="이메일">
 
 								</div>
 							</div>
+							<div class="text-danger" id="id_message"></div>
+							<div class="text-danger" id="id_message2"></div>
+
 
 							<div>
 								<div class="row mt-2 p-3">
@@ -86,16 +93,14 @@
 						<form action="" method="post">
 							<div class="row ">
 								<div class="mt-3">
-									<input type="text" name="user_id" id="user_id" value="" class="form-control" style="height: 50px;" placeholder="아이디">
+									<input type="text" name="userid" id="userid" value="" class="form-control" style="height: 50px;" placeholder="아이디">
 
 								</div>
 								<div class="mt-2">
-									<input type="text" name="user_email2" id="user_email2" value=""  class="form-control" style="height: 50px;" placeholder="이메일">
+									<input type="email" name="email2" id="email2" value=""  class="form-control" style="height: 50px;" placeholder="이메일">
 								</div>
-
-
 							</div>
-
+								<div class="text-danger" id="pw_message"></div>
 							<div>
 								<div class="row mt-2 p-3">
 									<button class="mt-3 btn btn-danger" id="btnPWD" style="height: 50px;">비밀번호 찾기 </button>
@@ -140,7 +145,9 @@
 </body>
 <script  th:inline="javascript">
     $(function(){
-
+	$('#id_message').hide()
+	$('#id_message2').hide()
+	$('#idmsg').hide();
         var user_id;
         var user_pw;
         var auto;
@@ -150,20 +157,16 @@
             $('#pw_message').show()
 
             //html요소 값 => js 변수 저장 => json 형식 반환 => ajax으로전송
-<!--            var jsonData = '{'+-->
-<!--                    '"user_id": "'+user_id +'", '+-->
-<!--                    '"user_pwd": "'+user_pwd+'",'+-->
-<!--                    '"auto":"'+auto+-->
-<!--            '"}'-->
-            user_name = $('#user_name').val();
-			user_email = $('#user_email').val();
+
+            name = $('#name').val();
+			email = $('#email').val();
 
 
 
 			//html요소 값 => js 변수 저장 => json 형식 반환 => ajax으로전송
 			var data ={
-			user_name : $('#user_name').val(),
-			user_email : $('#user_email').val(),
+			name : $('#name').val(),
+			email : $('#email').val(),
 			}
 
 
@@ -171,7 +174,7 @@
             console.log(data)
 
             $.ajax({  //페이지가 아닌 데이터만 보내기
-                type: "post",
+                type: "POST",
                 async: true, //true=비동기
                 url: "/users/loginId",
                 dataType : "text", //서버로부터 받은 데이터 타입
@@ -181,6 +184,15 @@
 
                     var jsonMessage = data;
 					console.log(jsonMessage)
+					if(jsonMessage == "실패"){
+						$('#id_message').show()
+						$('#id_message').text("이름과이메일을 재확인해주세요");
+					}else{
+						$('#idmsg').show();
+						$('#user_id').text(jsonMessage);
+					}
+
+
 
 
                 },
@@ -194,41 +206,44 @@
 
             }) //end
 
+
+
+
+
         });
 
         $('#btnPWD').click(function(e){
             e.preventDefault();
             $('#pw_message').show()
-            user_id = $('#user_id').val();
-            user_email2 = $('#user_email2').val();
+			var	userid = $('#userid').val();
+			var	email2 = $('#email2').val();
 
 			var data ={
-			user_id : $('#user_id').val()
-<!--			user_email2 : $('#user_email2').val(),-->
+			userid : $('#userid').val(),
+			email2 : $('#email2').val()
 			}
-
-
 
             console.log(data)
 
             $.ajax({  //페이지가 아닌 데이터만 보내기
-                type: "post",
+                type: "POST",
                 async: true, //true=비동기
-                url: "/users/loginId",
+                url: "/users/loginPwd",
                 dataType : "text", //서버로부터 받은 데이터 타입
-                data:{user_id,user_email2}, //매개변수
+                data:JSON.stringify(data), //매개변수
                 contentType: "application/json; charset=utf-8",
                 success : function(data){
 
                     var jsonMessage = data;
-                    console.log(data)
 					console.log(jsonMessage)
+					if(jsonMessage == "실패"){
 
+						$('#pw_message').text("아이디와이메일을 재확인해주세요");
+					}
+					if(jsonMessage == "일치"){
+					location.href="/users/pwd?email="+email2;
 
-
-
-
-
+					}
 
                 },
                 error: function(){
@@ -244,6 +259,24 @@
 
 
         })
+        $('#name').focus(function(){
+            $('#id_message').hide();
+        });
+        $('#email').focus(function(){
+            $('#id_message').hide();
+        });
+         $('#name').focus(function(){
+            $('#id_message2').hide();
+        });
+        $('#email').focus(function(){
+            $('#id_message2').hide();
+        });
+		$('#userid').focus(function(){
+			$('#pw_message').hide();
+		});
+		$('#email2').focus(function(){
+			$('#pw_message').hide();
+		});
 
 
         //포커서 이벤트 처리
@@ -251,19 +284,6 @@
             $(this).val('')
         });
 
-
-            $('#auto').click(function(){
-
-                if($(this).is(":checked") == true){
-                    $(this).val('on')
-                }else{
-                    $(this).val('off')
-                }
-
-                console.log($(this).val())
-
-
-        })
 
 
 
@@ -311,6 +331,7 @@
         })
 
       $('#H2').hide()
+	$('#idmsg').hide();
 
         $('#H1Btn').click(function(){
 

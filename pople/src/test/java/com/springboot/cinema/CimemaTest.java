@@ -32,10 +32,10 @@ public class CimemaTest {
 //        IntStream.rangeClosed(3, 5).forEach(i -> {
 //             객체 생성
         Cinema cinema = Cinema.builder()
-                    .cinamano(2L)
-                    .cinamaName("CGV" )
-                    .cinamaAddrss("경상남도 양산시 증산역앞 CGV ")
-                    .cinamaSeatCount(72)
+                    .cinemaid(2L)
+                    .cinemaName("CGV" )
+                    .cinemaAddrss("경상남도 양산시 증산역앞 CGV ")
+                    .cinemaSeatCount(72)
 
                     .build();
 

@@ -26,6 +26,23 @@ public class usersServiceImpl implements UsersService{
 
 
 
+    public Users saveUsers(Users users){
+        // 서버에서 validate적용
+        validateDuplicateMember(users);
+        return usersRepository.save(users);
+    }
+
+    private void validateDuplicateMember(Users users){
+        Users findMember = usersRepository.findByEmail(users.getEmail());
+
+        // 이미 가입된 회원인 경우 예외 발생
+        if (findMember != null){
+            throw new IllegalStateException("이미 가입된 회원입니다.");
+        }
+
+    }
+
+
 
 
 
@@ -63,6 +80,46 @@ public class usersServiceImpl implements UsersService{
     @Override
     public void remove(String user_id) {
         usersRepository.deleteById(user_id);
+    }
+
+    @Override
+    public UsersDTO login(String name, String email) {
+        Users users = usersRepository.findByNameOrEmail(name,email);
+
+        UsersDTO usersDTO = modelMapper.map(users,UsersDTO.class);
+
+        return usersDTO;
+    }
+
+    @Override
+    public UsersDTO loginId(String email) {
+
+        Users users = usersRepository.findByEmail(email);
+
+        UsersDTO usersDTO = modelMapper.map(users,UsersDTO.class);
+
+        return usersDTO;
+    }
+
+    @Override
+    public UsersDTO loginPwd(String userid, String email) {
+        Users users = usersRepository.findByUseridOrEmail(userid,email);
+
+        UsersDTO usersDTO = modelMapper.map(users,UsersDTO.class);
+
+        return usersDTO;
+    }
+
+    @Override
+    public Users pwdUpdate(UsersDTO usersDTO) {
+        Optional<Users> result =  usersRepository.findById(usersDTO.getUserid());
+        Users users = result.orElseThrow();
+
+
+
+    Users users1  =   usersRepository.save(users);
+
+        return users1;
     }
 
 //    @Override

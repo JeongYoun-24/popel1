@@ -5,23 +5,20 @@ import lombok.*;
 import javax.persistence.*;
 
 @Getter
-@ToString
-@Builder
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Entity
-@Table(name = "TimeTable")
-public class TimeTable {
+public class Theater {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long timetableno;
-    private String timetableDate;
+    @Column(name = "theater_id")
+    private Long id ;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    private Time time;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cinema_id")
     private Cinema cinema;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Movie movie;
 
 }

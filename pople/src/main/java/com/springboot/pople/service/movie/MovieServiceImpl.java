@@ -35,15 +35,15 @@ public class MovieServiceImpl implements MovieService  {
     @Override
     public Long register(MovieDTO movieDTO) {
         Movie movie = modelMapper.map(movieDTO, Movie.class);
-        Long movie_code = movieRepository.save(movie).getMovieno();
+        Long movieid = movieRepository.save(movie).getMovieid();
 
 
-        return movie_code;
+        return movieid;
     }
 
     @Override
-    public MovieDTO readOne(Long movie_code) {
-        Optional<Movie> result = movieRepository.findById(movie_code);
+    public MovieDTO readOne(Long movieid) {
+        Optional<Movie> result = movieRepository.findById(movieid);
         Movie movie = result.orElseThrow();
 
         MovieDTO movieDTO = modelMapper.map(movie, MovieDTO.class);
@@ -53,7 +53,7 @@ public class MovieServiceImpl implements MovieService  {
 
     @Override
     public void modify(MovieDTO movieDTO) {
-        Optional<Movie> result = movieRepository.findById(movieDTO.getMovieCode());
+        Optional<Movie> result = movieRepository.findById(movieDTO.getMovieid());
         Movie movie = result.orElseThrow();
 
         movie.change(movieDTO.getMovieName(), movieDTO.getMoviePoster(),movieDTO.getMovieSummary());
@@ -61,8 +61,8 @@ public class MovieServiceImpl implements MovieService  {
     }
 
     @Override
-    public void remove(Long movie_code) {
-        movieRepository.deleteById(movie_code);
+    public void remove(Long movieid) {
+        movieRepository.deleteById(movieid);
     }
 
 //    @Override

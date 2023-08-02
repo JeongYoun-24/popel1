@@ -1,41 +1,26 @@
 package com.springboot.pople.dto.movie;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.springboot.pople.entity.MovieImg;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.modelmapper.ModelMapper;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Getter
+@Setter
+@ToString
 public class MovieImgDTO {
 
-    private String uuid;
-    private String imgName;
-    private String path;
+    private Long id;
 
-    public String getImgURL(){
-        try {
-            return URLEncoder.encode(path+"/"+uuid+"_"+imgName,"UTF-8");
+    private String imgName;// 이미지 파일명
+    private String oriImgName;// 원본 이미지 파일명
+    private String imgUrl;// 이미지 조회 경로
+    private String repImgYn; // 대표 이미지 여부
 
-        }catch (UnsupportedEncodingException e){
-            e.printStackTrace();
-        }
-        return  "";
+    private static ModelMapper modelMapper = new ModelMapper();
+    public static MovieImgDTO of(MovieImg movieImg){
+        // entity -> dto
+        return modelMapper.map(movieImg, MovieImgDTO.class);
     }
-    public String getThumbnailURL(){
-        try {
-            return URLEncoder.encode(path+"/s_"+uuid+"_"+imgName,"UTF-8");
-        }catch (UnsupportedEncodingException e){
-            e.printStackTrace();
-        }
-        return  "";
-    }
-
-
-
 }

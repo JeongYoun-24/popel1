@@ -23,7 +23,7 @@ public class UplodConroller {
     @Value("${org.zerock.upload.path}")
     private String uploadPath;
 
-    @PostMapping("/upload")
+    @PostMapping("/upload222")
     public void uploadFile(MultipartFile[] uploadFiles){
         List<UploadResultDTO> resultDTOList = new ArrayList<>();
 

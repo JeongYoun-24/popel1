@@ -10,10 +10,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @Entity
+@Builder
 public class Theater {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "theater_id")
     private Long id ;
 

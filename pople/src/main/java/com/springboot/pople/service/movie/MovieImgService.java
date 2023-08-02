@@ -19,15 +19,17 @@ import javax.persistence.EntityNotFoundException;
 @Log4j2
 public class MovieImgService {
 
-    @Value("${org.zerock.upload.path}")
+//    @Value("${org.zerock.upload.path}")
+//    private String itemImgLocation;
+    @Value("${itemImgLocation}")
     private String itemImgLocation;
 
     private final MovieImgRepository movieImgRepository;
     private final FileService fileService;
 
     // 1. 상품 이미지 정보 등록 서비스
-    public void saveItemImg(MovieImg movieImg, MultipartFile itemImgFile) throws Exception{
-        String oriImgName = itemImgFile.getOriginalFilename();
+    public void saveMovieImg(MovieImg movieImg, MultipartFile movieImgFile) throws Exception{
+        String oriImgName = movieImgFile.getOriginalFilename();
         String imgName = "";
         String imgUrl = "";
 
@@ -36,10 +38,10 @@ public class MovieImgService {
             imgName = fileService.uploadFile(
                     itemImgLocation, // 실제 업로드할 파일 위치=>"d:/shop/item"
                     oriImgName, // 파일이름
-                    itemImgFile.getBytes());
+                    movieImgFile.getBytes());
 
             // path: "d:/shop" => url:"/images" 와 1:1 연결(맵핑)
-            imgUrl ="/images/item/"+imgName;
+            imgUrl ="/images/movie/"+imgName;
         }
 
         // 상품 이미지 정보 저장
@@ -71,7 +73,7 @@ public class MovieImgService {
                     oriImgName,
                     itemImgFile.getBytes());
 
-            String imgUrl = "/images/item/item/" + imgName;
+            String imgUrl = "/images/movie/movie/" + imgName;
 
             // 수정 폼으로 받은 상품이미지 정보 entity로 전달
             // entity가 변경되면 영속성 상태에서 자동으로 update쿼리 실행

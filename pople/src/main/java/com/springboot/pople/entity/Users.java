@@ -30,6 +30,7 @@ public class Users {
     private String phone;
     @Column(nullable = false)
     private String birthDate;
+
     @Enumerated(EnumType.STRING)
     private Role role;
     private LocalDateTime regDate;
@@ -41,8 +42,10 @@ public class Users {
         this.email = email;
 
     }
-    public void pwdUpdate(String password){
-        this.password = password;
+    public void pwdUpdate(String password, PasswordEncoder passwordEncoder){
+        String password2 = passwordEncoder.encode(password);
+//        users.setPassword(password);
+        this.password = password2;
 
     }
 
@@ -60,8 +63,8 @@ public class Users {
         // 암호화
         String password = passwordEncoder.encode(usersDTO.getPassword());
         users.setPassword(password);
-//        users.setRole(Role.USER);
-        users.setRole(Role.ADMIN);
+        users.setRole(Role.USER);
+//        users.setRole(Role.ADMIN);
 //        users.setRole(Role.MANAGER);
 
         return users;

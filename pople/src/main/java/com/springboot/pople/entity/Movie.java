@@ -2,7 +2,7 @@ package com.springboot.pople.entity;
 
 import com.springboot.pople.constant.MovieStatus;
 import com.springboot.pople.dto.movie.MovieFormDTO;
-import com.springboot.pople.dto.movie.MovieImgDTO;
+
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@ToString
+@Setter
+@ToString(exclude = "movieStatus" )
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -32,9 +33,11 @@ public class Movie {  // 영화
     @Column(nullable = false,length = 100)
     private String movieTime; // 영화 러닝 타임
     @Column(nullable = false,length = 100)
-    private String moveiRating; // 영화 관람 등급
+    private String movieRating; // 영화 관람 등급
 
     private String movieDate;  //   영화 개봉일
+
+    @Enumerated(EnumType.STRING)
     private MovieStatus movieStatus;  // 영화 게시 여부
 
 
@@ -58,6 +61,7 @@ public class Movie {  // 영화
         this.movieSummary = movieFormDTO.getMovieSummary();
         this.movieDate = movieFormDTO.getMovieDate();
         this.movieStatus = movieFormDTO.getMovieStatus();
+
     }
 
 

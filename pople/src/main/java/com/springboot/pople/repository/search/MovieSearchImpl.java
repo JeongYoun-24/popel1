@@ -25,7 +25,7 @@ public class MovieSearchImpl extends QuerydslRepositorySupport implements  Movie
     @Override
     public Page<Movie> search1(Pageable pageable) {
         // 작업대상인 Q도메인, JPQL 설정
-        QMovie movie = QMovie.movie;
+        QMovie   movie = QMovie.movie;
         JPQLQuery<Movie> query = from(movie);
 
         // 조건식 설정
@@ -65,7 +65,7 @@ public class MovieSearchImpl extends QuerydslRepositorySupport implements  Movie
                         booleanBuilder.or(movie.movieName.contains(keyword));
                         break;
                     case "r":
-                        booleanBuilder.or(movie.moveiRating.contains(keyword));
+                        booleanBuilder.or(movie.movieRating.contains(keyword));
                         break;
                     case "d":
                         booleanBuilder.or(movie.movieDate.contains(keyword));
@@ -103,7 +103,7 @@ public class MovieSearchImpl extends QuerydslRepositorySupport implements  Movie
                         booleanBuilder.or(movie.movieName.contains(keyword));
                         break;
                     case "r":
-                        booleanBuilder.or(movie.moveiRating.contains(keyword));
+                        booleanBuilder.or(movie.movieRating.contains(keyword));
                         break;
                     case "d":
                         booleanBuilder.or(movie.movieDate.contains(keyword));
@@ -121,7 +121,7 @@ public class MovieSearchImpl extends QuerydslRepositorySupport implements  Movie
                                 MovieListCountDTO.class,
                                 movie.movieid,
                                 movie.movieName,
-                                movie.moveiRating,
+                                movie.movieRating,
                                 movie.movieDate,
                                 movieRev.count().as("replyCount")));
 

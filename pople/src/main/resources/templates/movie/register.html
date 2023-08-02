@@ -25,7 +25,7 @@
 						<input type="hidden" th:field="*{id}">
 
 						<div class="input-group mt-3  ">
-							<select class="form-select" th:field="*{movieStatus}" aria-label="Default select ">
+							<select class="form-select" name="movieStatus" th:field="*{movieStatus}" aria-label="Default select ">
 								<option value="OPEN">개봉</option>
 								<option value="CLOSE">미개봉</option>
 							</select>
@@ -34,9 +34,9 @@
 						<!-- 상품명 -->
 						<div class="input-group mt-3  ">
 							<div class="input-group-prepend">
-								<span class="input-group-text">영화명</span>
+								<span class="input-group-text">영회명</span>
 							</div>
-							<input type="text"  class="form-control" id="movieName" placeholder="영화명을 입력해주세요"
+							<input type="text"  class="form-control" name="movieName" id="movieName" placeholder="영화명을 입력해주세요"
 								   th:field="*{movieName}" >
 						</div>
 						<p th:if="${#fields.hasErrors('movieName')}" th:errors="#{movieName}" class="error"></p>
@@ -45,17 +45,28 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text">관람등급</span>
 							</div>
-							<input type="text"  class="form-control" id="moveiRating" placeholder="영화 줄거리 입력해주세요"
-								   th:field="*{moveiRating}" >
+							<input type="text"  class="form-control" name="movieRating" id="movieRating" placeholder="관람등급을 입력해주세요"
+								   th:field="*{movieRating}" >
 						</div>
-						<p th:if="${#fields.hasErrors('moveiRating')}" th:errors="#{moveiRating}" class="error"></p>
+						<p th:if="${#fields.hasErrors('movieRating')}" th:errors="#{movieRating}" class="error"></p>
+
+						<div class="input-group mt-3  ">
+							<div class="input-group-prepend">
+								<span class="input-group-text">개봉일</span>
+							</div>
+							<input type="text"  class="form-control" name="movieDate" id="movieDate" placeholder="개봉일을 입력해주세요"
+								   th:field="*{movieDate}" >
+						</div>
+						<p th:if="${#fields.hasErrors('movieDate')}" th:errors="#{movieDate}" class="error"></p>
+
+
 
 						<!-- 재고 -->
 						<div class="input-group mt-3  ">
 							<div class="input-group-prepend">
 								<span class="input-group-text">러닝타임</span>
 							</div>
-							<input type="text"  class="form-control" id="movieTime" placeholder="상영시간을 입력해주세요"
+							<input type="text"  class="form-control" name="movieTime" id="movieTime" placeholder="상영시간을 입력해주세요"
 								   th:field="*{movieTime}" >
 						</div>
 						<p th:if="${#fields.hasErrors('movieTime')}" th:errors="#{movieTime}" class="error"></p>
@@ -63,9 +74,9 @@
 						<!-- 상품 상세 내용 -->
 						<div class="input-group mt-3  ">
 							<div class="input-group-prepend">
-								<span class="input-group-text">상품 상세 내용</span>
+								<span class="input-group-text">영화줄거리 내용</span>
 							</div>
-							<textarea type="text"  class="form-control" id="movieSummary" rows="10"
+							<textarea type="text"  class="form-control" name="movieSummary" id="movieSummary" rows="10"
 									  th:field="*{movieSummary}" ></textarea>
 						</div>
 						<p th:if="${#fields.hasErrors('movieSummary')}" th:errors="#{movieSummary}" class="error"></p>
@@ -74,7 +85,7 @@
 						<div th:if="${#lists.isEmpty(movieFormDTO.movieImgDTOList)}">
 							<div class="form-group" th:each="num: ${#numbers.sequence(1,2)}">
 								<div class="mb-3 img-div">
-									<label for="movieImgFile" class="form-label" th:text="상품이미지+${num}"></label>
+									<label for="movieImgFile" class="form-label" th:text="영화이미지+${num}"></label>
 									<input class="form-control" type="file" name="movieImgFile" id="movieImgFile">
 								</div>
 							</div>
@@ -82,13 +93,13 @@
 
 						<!-- 상품 수정시 적용하는 상품이미지 -->
 						<div th:if="${not #lists.isEmpty(movieFormDTO.movieImgDTOList)}">
-							<div class="form-group" th:each="movieImgDTO, status: ${itemFormDTO.movieImgDTOList}">
+							<div class="form-group" th:each="movieImgDTO, status: ${movieFormDTO.movieImgDTOList}">
 								<div class="mb-3 img-div">
 
-									<input class="form-control" type="file" name="movieImgFile" id="itemImgFile2">
+									<input class="form-control" type="file" name="movieImgFile2" id="movieImgFile2">
 									<!-- 상품 수정시 어떤 이미지가 수정되었는지 체크하기위해 상품이미지 아이디값을 설정 -->
-									<input type="hidden" name="movieImgIds" th:value="${movieImgDTO.id}">
-									<label th:text="${not #strings.isEmpty(movieImgDTO.oriImgName)} ? ${movieImgDTO.oriImgName} : '상품이미지'+${status.index+1} "
+									<input type="hidden" name="movieImgIds" th:value="${movieFormDTO.id}">
+									<label th:text="${not #strings.isEmpty(movieImgDTO.oriImgName)} ? ${movieImgDTO.oriImgName} : '영화이미지'+${status.index+1} "
 										   class="form-label"></label>
 								</div>
 							</div>
@@ -100,8 +111,12 @@
 						</div>
 						<!-- 상품정보 수정 버튼 -->
 						<div th:unless="${#strings.isEmpty(movieFormDTO.id)}" class="text-center my-2">
-							<button th:formaction="@{'/admin/item/'+${movieFormDTO.id} }" type="submit" class="btn btn-primary">수정</button>
+							<button th:formaction="@{'/movie/admin/movie/'+${movieFormDTO.id} }" type="submit" class="btn btn-primary">수정</button>
 						</div>
+						<div th:if="${#strings.isEmpty(movieFormDTO.id)}" class="text-center my-2">
+							<button th:formaction="@{'/movie/admin/movie/'+${movieFormDTO.id}}" type="submit" class="btn btn-primary">수정</button>
+						</div>
+
 
 
 						<!--스프링 시큐리티에서는 GET방식을 제외한 POST/PUT/DELETE요청에 CSRF요청-->
@@ -121,56 +136,7 @@
 
 
 
-	<!--<h1 class="mt-5"> 영화 등록 페이지 </h1>
-		<h3  th:if="${isOk}" th:text="${isOk}"></h3>
-		<div>
-			<form th:action="@{/movie/register}" th:method="post">
-				<div class="form-group">
-					<label>제목</label>
-					<input type="text" class="form-control" name="movieName" placeholder="영화 제목">
-				</div>
 
-				<div class="form-group fileForm">
-					<label>영화 이미지</label>
-					<div id="show2">
-						<div class="alert alert-light p-1" role="alert">
-
-						</div>
-						<div class="alert alert-light" role="alert">
-							<img src="#" id="preview" width="300">
-						</div>
-					</div>
-					<div class="custom-file">
-&lt;!&ndash;						<input type="file" class="custom-file-input files" id="fileInput" name="moviePoster" multiple>&ndash;&gt;
-						<input type="file"  name="moviePoster" id="moviePoster"
-							   onchange="readURL(this)"
-							   class="form-control  p-2" multiple>
-
-
-						<label class="custom-file-label" data-browse="Browse"></label>
-					</div>
-				</div>
-				<div>
-					<label>영화줄거리 </label>
-					<input type="text" name="movieSummary" class="form-control" placeholder="영화줄거리">
-				</div>
-				<div>
-					<label>영화러닝타임 </label>
-					<input type="text" name="movieTime" class="form-control" placeholder="영화러닝타임">
-				</div>
-				<div>
-					<label>영화관람등급 </label>
-					<input type="text" name="movieRating" class="form-control" placeholder="영화관람등급">
-				</div>
-				<div>
-					<label>영화개봉일 </label>
-					<input type="text" name="movieDate" class="form-control" placeholder="영화개봉일">
-				</div>
-
-
-				<button type="submit" class="btn btn-primary">등록하기 </button>
-			</form>
-		</div>-->
 
 
 	</div>

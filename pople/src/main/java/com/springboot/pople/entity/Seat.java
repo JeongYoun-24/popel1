@@ -10,7 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Seat")
+@Table(name = "seat")
 public class Seat {
 
     @Id
@@ -19,7 +19,7 @@ public class Seat {
     private Long seatid;  // 좌석 코드
     private int seatNo; //좌석 번호
     private int seatGroup; // 좌석 그룹
-    private int seatLineNo; // 좌석 라인줄 번호
+    private String seatLineNo; // 좌석 라인줄 번호
 
     @ManyToOne
     @JoinColumn(name = "theater_id")

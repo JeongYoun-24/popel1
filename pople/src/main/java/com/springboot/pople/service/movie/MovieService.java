@@ -4,7 +4,7 @@ import com.springboot.pople.dto.MovieDTO;
 import com.springboot.pople.dto.MovieListCountDTO;
 import com.springboot.pople.dto.PageRequestDTO;
 import com.springboot.pople.dto.PageResponseDTO;
-import com.springboot.pople.dto.movie.MovieImgDTO;
+
 import com.springboot.pople.entity.Movie;
 
 import java.util.HashMap;

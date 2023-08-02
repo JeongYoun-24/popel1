@@ -18,7 +18,7 @@ public interface UsersService {
 
     public UsersDTO loginPwd(String userid,String email);
 
-    public Users pwdUpdate(UsersDTO usersDTO);
+    public void pwdUpdate(UsersDTO usersDTO);
 
 
     public Users saveUsers (Users users);

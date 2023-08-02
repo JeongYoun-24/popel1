@@ -1,15 +1,21 @@
 package com.springboot.pople.service.movie;
 
+import com.springboot.pople.dto.movie.MainMovieDTO;
 import com.springboot.pople.dto.movie.MovieFormDTO;
+
 import com.springboot.pople.dto.movie.MovieImgDTO;
-import com.springboot.pople.dto.movie.MovieImgDTO2;
+import com.springboot.pople.dto.movie.MovieSearchDTO;
 import com.springboot.pople.entity.Movie;
 import com.springboot.pople.entity.MovieImg;
 import com.springboot.pople.repository.MovieImgRepository;
-import com.springboot.pople.repository.MovieRepository;
+import com.springboot.pople.repository.movie.MovieRepository;
+import com.springboot.pople.repository.movie.MovieRepository2;
 import com.springboot.pople.service.FileService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,29 +24,38 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Log4j2
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class MovieService2 {
 
     private final MovieRepository movieRepository;
+    private final MovieRepository2 movieRepository2;
     private final MovieImgService movieImgService;
     private final MovieImgRepository movieImgRepository;
     private final FileService fileService;
 
-    @Value("${org.zerock.upload.path}")
+//    @Value("${org.zerock.upload.path}")
+//    private String movieImgLocation;
+    @Value("itemImgLocation}")
     private String movieImgLocation;
 
-    public Long saveItem(
+    public Long saveMovie(
             MovieFormDTO movieFormDTO,
-            List<MultipartFile> itemImgFileList ) throws Exception{
+            List<MultipartFile> movieImgFileList ) throws Exception{
 
+        log.info("fdsfdsffdsfsffdsf12121213"+movieFormDTO.getMovieName());
         // 영화 등록
-        Movie movie = movieFormDTO.createItem();//dto->entity로 전달
+
+        // 전달 받은 데이터 modelmapper 통해서 변환
+        Movie movie = movieFormDTO.createMovie();//dto->entity로 전달
+        log.info(movie+"이름좀나와라 시발아");
+        movie.setMovieStatus(movieFormDTO.getMovieStatus());
         movieRepository.save(movie);
 
         // 이미지등록
-        for(int i=0; i<itemImgFileList.size(); i++){
+        for(int i=0; i<movieImgFileList.size(); i++){
             MovieImg movieImg = new MovieImg();
 
             movieImg.setMovie(movie);// 상품 이미지 엔티티에 상품엔티티를 맵핑
@@ -53,7 +68,9 @@ public class MovieService2 {
             }
 
             // 영화 이미지 정보 저장: 영화이미지 엔티티 DB 반영 및 파일업로드처리
-            movieImgService.saveItemImg(movieImg, itemImgFileList.get(i));
+            movieImgService.saveMovieImg(movieImg, movieImgFileList.get(i));
+            movie.setMoviePoster(movieImg.getImgName());
+            movieRepository.save(movie);
         }
 
         return movie.getMovieid();// 상품 엔티티 아이디 반환
@@ -66,13 +83,16 @@ public class MovieService2 {
 
         // 1. db-> entity : 특정 상품에 대한 상품이미지 모두 조회
         List<MovieImg> movieImgList =
-                movieImgRepository.findByIdOrderByIdAsc(movieId);
+                movieImgRepository.findByMovie_MovieidOrderByIdAsc(movieId);
+
+
 
         // 2. List안에 entity 값 -> List구조에 dto로 변환
-        List<MovieImgDTO2> movieImgDTOList = new ArrayList<>();
+        List<MovieImgDTO> movieImgDTOList = new ArrayList<>();
         for(MovieImg movieImg: movieImgList){
-            MovieImgDTO2 movieImgDTO = MovieImgDTO2.of(movieImg);// entity->dto 메서드호출
+            MovieImgDTO movieImgDTO = MovieImgDTO.of(movieImg);// entity->dto 메서드호출
             movieImgDTOList.add(movieImgDTO);
+
         }
 
         // 3. 상품 정보 읽기
@@ -110,6 +130,17 @@ public class MovieService2 {
         // 수정작업 완료된 상품 아이디 반환
         return movie.getMovieid();
     }
+    // 6. 상품 검색
+    @Transactional(readOnly = true)
+    public Page<Movie> getAdminItemPage(MovieSearchDTO movieSearchDTO, Pageable pageable){
+        return movieRepository.getAdminMoviePage(movieSearchDTO, pageable);
+    }
 
+    // 7. 메인 페이지 상품 조회 서비스
+    @Transactional(readOnly = true)
+    public Page<MainMovieDTO> getMainItemPage(MovieSearchDTO movieSearchDTO, Pageable pageable){
+
+        return movieRepository.getMainItemPage(movieSearchDTO,pageable);
+    }
 
 }

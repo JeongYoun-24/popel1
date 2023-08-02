@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,7 +24,7 @@ public class usersServiceImpl implements UsersService{
     private final ModelMapper modelMapper;
 
     private final UsersRepository usersRepository;
-
+    private final PasswordEncoder passwordEncoder;
 
 
     public Users saveUsers(Users users){
@@ -77,6 +78,10 @@ public class usersServiceImpl implements UsersService{
 
     }
 
+
+
+
+
     @Override
     public void remove(String user_id) {
         usersRepository.deleteById(user_id);
@@ -111,15 +116,15 @@ public class usersServiceImpl implements UsersService{
     }
 
     @Override
-    public Users pwdUpdate(UsersDTO usersDTO) {
+    public void pwdUpdate(UsersDTO usersDTO) {
+
         Optional<Users> result =  usersRepository.findById(usersDTO.getUserid());
         Users users = result.orElseThrow();
 
+        users.pwdUpdate(usersDTO.getPassword(),passwordEncoder);
+        usersRepository.save(users);
 
 
-    Users users1  =   usersRepository.save(users);
-
-        return users1;
     }
 
 //    @Override

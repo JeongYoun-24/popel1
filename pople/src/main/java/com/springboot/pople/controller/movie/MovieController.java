@@ -51,6 +51,22 @@ public class MovieController {
         return "movie/movieFind";
     }
 
+    @GetMapping(value = "/find/{id}")
+    public String getMovieFind(@PathVariable("id") Long id, Model model){
+    log.info("영화 상세 정보 요청 ㄱㄱ~~");
+    Long movieid = id;
+    log.info(movieid);
+
+      MovieFormDTO movieFormDTO =  movieService2.getMovieDtl(movieid);
+      log.info(movieFormDTO.getMovieImgDTOList());
+
+
+        model.addAttribute("movie",movieFormDTO);
+
+
+        return "movie/movieFind";
+    }
+
 
 
 
@@ -79,7 +95,6 @@ public class MovieController {
                 .moveiRating(req.getParameter("movieRating"))
                 .movieTime(req.getParameter("movieTime"))
                 .movieDate(req.getParameter("movieDate"))
-                .movieStatus(false)
                 .build();
         System.out.println(movieDTO);
 
@@ -129,14 +144,15 @@ public class MovieController {
         }
 
         if(movieImgFileList.get(0).isEmpty() && movieFormDTO.getId() == null){
-            model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수 입력 값입니다.");
+            model.addAttribute("errorMessage", "첫번째 영화 이미지는 필수 입력 값입니다.");
             return "movie/register";
         }
 
         try {
-            movieService2.saveItem(movieFormDTO, movieImgFileList);
+            // 전달 받은 데이터 서비스로 보내서 db 로 저장
+            movieService2.saveMovie(movieFormDTO, movieImgFileList);
         }catch (Exception e){
-            model.addAttribute("errorMessage","상품 등록 중 에러가 발생하였습니다.");
+            model.addAttribute("errorMessage","영회 등록 중 에러가 발생하였습니다.");
             return "movie/register";
         }
 
@@ -164,32 +180,32 @@ public class MovieController {
     }
 
     // 상품 정보 수정
-    @PostMapping(value="/admin/item/{itemId}")
+    @PostMapping(value="/admin/movie/{movieId}")
     public String itemUpdate(
             @Valid MovieFormDTO movieFormDTO,
             BindingResult bindingResult,
-            @RequestParam("itemImgFile") List<MultipartFile> itemImgFileList,
+            @RequestParam("movieImgFile2") List<MultipartFile> itemImgFileList,
             Model model){
 
         // 데이터 검증 확인
         if (bindingResult.hasErrors()){
-            return "item/itemForm";
+            return "movie/register";
         }
         // 첨부파일 여부 체크
         if (itemImgFileList.get(0).isEmpty() && movieFormDTO.getId() == null){
-            model.addAttribute("errorMessage", "첫번째 상품 이미지는 필수 입력 값입니다.");
-            return "item/itemForm";
+            model.addAttribute("errorMessage", "첫번째 영화 이미지는 필수 입력 값입니다.");
+            return "movie/register";
         }
 
         // 상품 수정 서비스 호출
         try{
             movieService2.updateItem(movieFormDTO, itemImgFileList);
         }catch (Exception e){
-            model.addAttribute("errorMessage","상품 수정 중 에러가 발생했습니다.");
-            return "item/itemForm";
+            model.addAttribute("errorMessage","영화 수정 중 에러가 발생했습니다.");
+            return "movie/register";
         }
 
-        return "redirect:/";
+        return "redirect:/main";
     }
 
 

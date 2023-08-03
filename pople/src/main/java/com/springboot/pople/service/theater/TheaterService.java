@@ -14,37 +14,21 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
-@Log4j2
-@Service
-@Transactional
-@RequiredArgsConstructor
-public class TheaterService {
 
-    private final TheaterRepository theaterRepository;
-    private final CinemaRepository cinemaRepository;
+public interface TheaterService {
 
-    private final ModelMapper modelMapper;
+    public Long register(TheaterDTO theaterDTO);
 
-    public Long register(TheaterDTO theaterDTO){
-        log.info(theaterDTO);
-     Optional<Cinema> cinema =  cinemaRepository.findById(theaterDTO.getCinemaid());
-        CinemaDTO cinemaDTO = modelMapper.map(cinema, CinemaDTO.class);
+    public TheaterDTO readOne(Long cinemaid);
 
-        theaterDTO.setCinemaid(cinemaDTO.getCinemaid());
 
-        Theater theater = modelMapper.map(theaterDTO, Theater.class);
-
-        log.info(theater);
-        Long theaterid = theaterRepository.save(theater).getId();
-        log.info(theaterid);
-
-        return theaterid;
-    }
+    public List<TheaterDTO> theaterList(Long cinemaid);
 
 
 
-
+    public List<TheaterDTO> AllList();
 
 }

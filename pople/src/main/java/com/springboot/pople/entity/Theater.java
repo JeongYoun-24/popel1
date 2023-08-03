@@ -11,15 +11,18 @@ import javax.persistence.*;
 @ToString
 @Entity
 @Builder
+@Table(name="theater", indexes = {@Index(name="idx_theater_cinema_id", columnList = "cinema_id")})
 public class Theater {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "theater_id")
     private Long id ;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cinema_id")
     private Cinema cinema;
+
+
 
 }

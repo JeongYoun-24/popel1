@@ -19,6 +19,9 @@ public interface MovieService {
     public void modify(MovieDTO movieDTO);
     public void remove(Long movieid);
 
+    public MovieDTO nameOne(String movieName);
+
+
 //    default Map<String,Object> dtoToEntity(MovieDTO movieDTO){
 //        Map<String,Object> entityMap = new HashMap<>();
 //        Movie movie  = Movie.builder()

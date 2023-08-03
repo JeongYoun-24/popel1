@@ -2,7 +2,9 @@ package com.springboot.seat;
 
 import com.springboot.pople.PopleApplication;
 import com.springboot.pople.dto.TheaterDTO;
+import com.springboot.pople.entity.Cinema;
 import com.springboot.pople.entity.Seat;
+import com.springboot.pople.entity.Theater;
 import com.springboot.pople.repository.SeatRepository;
 import com.springboot.pople.repository.TheaterRepository;
 import com.springboot.pople.service.seat.SeatService;
@@ -29,14 +31,27 @@ public class SeatTest {
     @Test
     @DisplayName(value = "상영관 등록 테스트 ")
     public void theaterTest(){
-        IntStream.rangeClosed(1,10).forEach(i-> {
+        IntStream.rangeClosed(1,1).forEach(i-> {
             Long cinemaid = 1L;
+            Long theaterid = 1L;
+
+            Cinema cinema =new Cinema();
+
+
+            Theater theater =new Theater();
+
+
+
             Seat seat = Seat.builder()
                     .seatNo(i)
                     .seatGroup(01)
                     .seatLineNo("A")
+                    .cinema(cinema)
+                    .theater(theater)
+
                     .build();
         seatRepository.save(seat);
+
 
         });
 

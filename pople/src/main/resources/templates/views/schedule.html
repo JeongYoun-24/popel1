@@ -11,12 +11,92 @@
         <div class="col">
 
             <div class="card">
-                [[${cinema}]]
-                <hr>
-                [[${seat}]]
+<!--                [[${cinema}]]-->
+<!--                <hr>-->
+<!--                [[${seat}]]-->
+                <div>
+                    <div class="row">
+                        <!-- 대표 이미지 -->
+                        <div class="col-md-4">
+                            <div>
+                                <img  th:src="${movie.movieImgDTOList[0].imgUrl}" style="width:300px;" class="rounded m-auto d-block" alt="" >
+
+                            </div>
+
+                        </div>
+                        <div class="col-md-2"></div>
+
+
+                        <div class="col-md-5">
+                            <!-- 판매 상태 -->
+                            <span th:if="${movie.movieStatus == T(com.springboot.pople.constant.MovieStatus).OPEN}">개봉</span>
+                            <span th:unless="${movie.movieStatus == T(com.springboot.pople.constant.MovieStatus).OPEN}">미개봉 </span>
+                            <div class="h4" th:text="${movie.movieName}"></div>
+                            <hr class="my-4">
+                            <!--가격및 재고량 -->
+                            <div>
+                                <div>
+                                    <input type="hidden" th:value="${movie.id}" id="movieid" name="movieid" class="form-control">
+
+                                </div>
+                                <div class="input-group mb-3 mt-2">
+                                    <h5>관람등급</h5>
+                                    <hr class="">
+                                </div>
+                                <div>
+                                    [[${movie.movieRating}]]
+                                </div>
+                            </div>
+                            <hr class="my-4">
+                            <div class="text-right  d-flex ">
+                                <h5>러닝타임(상영시간)</h5>
+                                <hr class="">
+                            </div>
+                            <div>
+                                [[${movie.movieTime}]]
+                            </div>
+
+                            <hr class="my-4">
+                            <div class="text-right  d-flex ">
+                                <h5>개봉일자</h5>
+                                <hr class="">
+                            </div>
+                            <div>
+                                [[${movie.movieDate}]]
+                            </div>
+
+
+
+                        </div>
+                        <!-- 상품 판매 상태이면 장바구니 주문 하기 버튼 활성화 -->
+                        <hr class="my-4">
+
+
+                    </div>
+
+                </div>
                 <h5 class="card-header">영화 예매 페이지 </h5>
                 <div class="card-body">
+                    <div class="d-flex justify-content-center">
+                        <label>영화관</label>
+                        <select id="cinemaid" class="cinemaHeader" name="cinemaid" >
+                            <option  th:value="${cinema.cinemaid}" th:each="cinema, status: ${cinema}">[[${cinema.cinemaName}]]</option>
 
+                        </select>
+
+                        <label>상영관</label>
+                        <select id="theaterid" class="" name="theaterid" >
+                            <option  th:value="${theater.id}" th:each="theater, status: ${theater}">[[${theater.id}]]</option>
+
+                        </select>
+                        <label>좌석번호</label>
+
+
+<!--                            [[${theater}]]-->
+                    </div>
+                    <div id="addrss">
+                        <input type="text" value="영화관주소">
+                    </div>
 
 
 
@@ -33,9 +113,60 @@
 
 
 
-
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script th:src="@{/js/cinema.js}"></script>
 <script layout:fragment="script"    th:inline="javascript">
+    $(function(){
+    $('#addrss').hide()
+    $('#theaterid').hide()
+           $('#cinemaid').change(function(){
+           var cinemaid = $('#cinemaid').val()
+                $('#addrss').show()
+                $('#theaterid').show()
 
+                console.log([[${theater}]])
+                console.log([[${cinema}]])
+                console.log([[${seat}]])
+                console.log("체인지")
+                console.log(cinemaid)
+
+                var data = {
+                cinemaid : $('#cinemaid').val()
+
+                };
+
+                $.ajax({  //페이지가 아닌 데이터만 보내기
+                type: "POST",
+                async: true, //true=비동기
+                url: "/theater/cinemaid",
+                dataType : "text", //서버로부터 받은 데이터 타입
+                data:JSON.stringify(data), //매개변수
+                contentType: "application/json; charset=utf-8",
+                success : function(data){
+
+
+
+                    var jsonMessage = data;
+                    console.log(jsonMessage)
+
+
+                },
+                error: function(){
+
+                },
+                complete : function(){
+
+                }
+
+
+            }) //end
+
+
+
+
+           })
+
+    })
 
 
 </script>

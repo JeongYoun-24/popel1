@@ -1,6 +1,7 @@
 package com.springboot.pople.service.movie;
 
 import com.springboot.pople.dto.MovieDTO;
+import com.springboot.pople.dto.UsersDTO;
 import com.springboot.pople.entity.Movie;
 import com.springboot.pople.repository.movie.MovieRepository;
 
@@ -40,7 +41,7 @@ public class MovieServiceImpl implements MovieService  {
     public MovieDTO readOne(Long movieid) {
 //        Optional<Movie> result = movieRepository.findById(movieid);
 //        Movie movie = result.orElseThrow();
-     Optional<Movie> movie=  movieRepository.findById(movieid);
+        Optional<Movie> movie=  movieRepository.findById(movieid);
 
         MovieDTO movieDTO = modelMapper.map(movie, MovieDTO.class);
 
@@ -59,6 +60,14 @@ public class MovieServiceImpl implements MovieService  {
     @Override
     public void remove(Long movieid) {
         movieRepository.deleteById(movieid);
+    }
+
+    @Override
+    public MovieDTO nameOne(String movieName) {
+        Movie movie =movieRepository.findByMovieName(movieName);
+
+        MovieDTO movieDTO = modelMapper.map(movie,MovieDTO.class);
+        return movieDTO;
     }
 
 //    @Override

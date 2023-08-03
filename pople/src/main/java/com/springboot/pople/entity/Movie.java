@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString(exclude = "movieStatus" )
+@ToString(exclude = "movieStatus")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

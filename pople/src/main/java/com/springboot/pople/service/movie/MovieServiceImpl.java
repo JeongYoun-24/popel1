@@ -1,7 +1,9 @@
 package com.springboot.pople.service.movie;
 
+import com.springboot.pople.dto.CinemaDTO;
 import com.springboot.pople.dto.MovieDTO;
 import com.springboot.pople.dto.UsersDTO;
+import com.springboot.pople.entity.Cinema;
 import com.springboot.pople.entity.Movie;
 import com.springboot.pople.repository.movie.MovieRepository;
 
@@ -13,6 +15,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -68,6 +72,25 @@ public class MovieServiceImpl implements MovieService  {
 
         MovieDTO movieDTO = modelMapper.map(movie,MovieDTO.class);
         return movieDTO;
+    }
+
+    @Override
+    public List<MovieDTO> AllList() {
+        List<Movie> cinemaList = movieRepository.findAll();
+        log.info(cinemaList);
+        MovieDTO cinemaDTO = modelMapper.map(cinemaList,MovieDTO.class);
+        log.info(cinemaDTO);
+        List<MovieDTO> cinemaDTOList = new ArrayList<>();
+        log.info(cinemaDTOList);
+
+        for(Movie cinema: cinemaList){
+            MovieDTO movieImgDTO = MovieDTO.of(cinema);// entity->dto 메서드호출
+            cinemaDTOList.add(movieImgDTO);
+
+        }
+
+
+        return cinemaDTOList;
     }
 
 //    @Override

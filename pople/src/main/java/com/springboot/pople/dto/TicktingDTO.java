@@ -27,10 +27,10 @@ public class TicktingDTO {
 //    private Long scheduleId;  // 영화 상영 시간 번호
 
     private Long id;  //영화 내역 번호
-    private Users users;
+    private String userid;
     private Long scheduleid;
 
-    private long movieCode;  // 영화 번호
+    private Long movieCode;  // 영화 번호
     private Long theaterCode;  // 상영관 번호
     private LocalDateTime dayDate; // 애매 날짜
     private String movieName; // 영화 이름

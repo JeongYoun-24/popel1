@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 public class TheaterFormDTO {
 
     private Long id ;
+    private String theaterName;
+
     private Cinema cinema;
 
     private static ModelMapper modelMapper = new ModelMapper();

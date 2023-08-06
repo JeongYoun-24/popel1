@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @Service
@@ -39,6 +40,17 @@ public class TheaterFormService {
 
         return theaterDTOList;
     }
+
+    public TheaterFormDTO theaterName(String theaterName) {
+       Theater theater=  theaterRepository.findByTheaterName(theaterName);
+        log.info("비상 값이 안나온다 "+theater);
+        TheaterFormDTO theaterDTO = modelMapper.map(theater, TheaterFormDTO.class);
+        log.info("비상 값이 안나온다 "+theaterDTO);
+
+        return theaterDTO;
+    }
+
+
 
 
 }

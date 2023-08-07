@@ -32,4 +32,16 @@ public class OrderHistDTO {
         // 주문 상품 리스트 객체에  주문 상품 정보 추가
         orderItemDTOList.add(orderMovieDTO);
     }
+
+
+    // 티켓 정보를 저장할 List객체 생성
+    private List<TicktingDTO> TicktingTOList = new ArrayList<>();
+    public void TicktingTOList(TicktingDTO orderMovieDTO){
+        // 주문 상품 리스트 객체에  주문 상품 정보 추가
+        TicktingTOList.add(orderMovieDTO);
+    }
+
+
+
+
 }

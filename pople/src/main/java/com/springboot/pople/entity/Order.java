@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "orders")
 @Getter
 @Setter
-@ToString(exclude = "orderItems" )
+@ToString(exclude = "orderMovies" )
 public class Order {
 
     @Id
@@ -36,13 +36,13 @@ public class Order {
     // orderItems에 있는 Order에 의해 관리
     @OneToMany(
             fetch = FetchType.LAZY,
-          //  mappedBy = "templates/order",
+//              mappedBy = "/templates/order",
             orphanRemoval = true, // 고아객체 제거
             cascade = CascadeType.ALL) // 고객이 주문할 상품을 선택하고 주문할 때 주문 엔티티를 저장하면서 주문 상품 엔티티도 함께 저장되는 경우
-    private List<OrderMovie> orderItems = new ArrayList<>();
+    private List<OrderMovie> orderMovies = new ArrayList<>();
 
     public void addOrderItem(OrderMovie orderMovie){
-        orderItems.add(orderMovie);
+        orderMovies.add(orderMovie);
         // 양방향 참조 주문 상품객체에 주문 객체을 설정
         orderMovie.setOrder(this);
     }
@@ -66,7 +66,7 @@ public class Order {
     // 주문한 상품 총 금액 계산 처리
     public int getTotalPrice(){
         int totalPrice = 0;
-        for(OrderMovie orderItem : orderItems){
+        for(OrderMovie orderItem : orderMovies){
             totalPrice += orderItem.getOrderPrice();
         }
         return totalPrice;
@@ -74,12 +74,12 @@ public class Order {
 
 
     // 주문 상품 취소시 상품목록에서 주문상품 메서드 호출
-//    public void cancelOrder(){
-//        this.orderStatus = OrderStatus.CANCEL;
+    public void cancelOrder(){
+        this.orderStatus = OrderStatus.CANCEL;
 //        for (OrderMovie orderItem : orderItems){
 //
 //        }
-//    }
+    }
 
 
 

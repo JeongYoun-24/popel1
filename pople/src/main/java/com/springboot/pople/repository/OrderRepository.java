@@ -13,13 +13,19 @@ import java.util.List;
 // 조회 조건이 복잡하지 않을 경우 Query어노테이션 방식으로 구현
 public interface OrderRepository extends JpaRepository<Order, Long>, QuerydslPredicateExecutor<Order> {
 
+
+
+
     // 현재 로그인 사용자의 주문 데이터를 페이징 조건에 맞춰서 조회
-    @Query("select o from Order o where o.users.email = :email order by  o.orderStatus, o.orderDate desc")
-   List<Order> findOrders(@Param("email") String email, Pageable pageable);
+    @Query("select o from Order o where o.users.name = :name order by  o.orderStatus, o.orderDate desc")
+    List<Order> findOrders(@Param("name") String Name, Pageable pageable);
 
 //    // 현재 로그인한 회원의 주문 개수가 몇 개인지 조회
-    @Query("select count(o) from Order o where o.users.email = :email")
-    Long countOreder(@Param("email") String email);
+    @Query("select count(o) from Order o where o.users.name = :name")
+    Long countOreder(@Param("name") String name);
+
+    @Query("select o from Order o where o.id = :orderId")
+    Order userId(@Param("orderId") Long orderId);
 
 
 }

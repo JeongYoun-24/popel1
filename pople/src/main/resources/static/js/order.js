@@ -17,11 +17,18 @@ console.log("order axios방식 처리")
     }})
 
 */
-async function cancelOrderId(orderIdData){
+async function cancelOrderId(orderIdData){  // 애매 취소
 
-    const response = await axios.post('/order/'+orderIdData.orderId+'/cancel', orderIdData)
+    const response = await axios.post('/tickting/order/'+orderIdData.orderId+'/cancel', orderIdData)
 
     // return response.data; 
+    return response;
+}
+async function ticktingId(orderIdData){ //구매 티켓 조회
+
+    const response = await axios.post('/tickting/order/'+orderIdData.orderId+'/find', orderIdData)
+
+    // return response.data;
     return response;
 }
 

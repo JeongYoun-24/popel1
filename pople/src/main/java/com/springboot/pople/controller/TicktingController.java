@@ -1,16 +1,16 @@
 package com.springboot.pople.controller;
 
-import com.springboot.pople.dto.CinemaDTO;
-import com.springboot.pople.dto.MovieDTO;
-import com.springboot.pople.dto.OrderHistDTO;
-import com.springboot.pople.dto.TicktingDTO;
-import com.springboot.pople.entity.Users;
+import com.springboot.pople.dto.*;
+import com.springboot.pople.dto.movie.MovieFormDTO;
+import com.springboot.pople.entity.*;
+import com.springboot.pople.repository.OrderRepository;
 import com.springboot.pople.repository.UsersRepository;
 import com.springboot.pople.repository.movie.MovieRepository;
 import com.springboot.pople.service.cinema.CinemaService;
 import com.springboot.pople.service.movie.MovieService;
 import com.springboot.pople.service.movie.MovieService2;
 import com.springboot.pople.service.movieSchedule.MovieScheduleService;
+import com.springboot.pople.service.order.OrderService;
 import com.springboot.pople.service.seat.SeatService;
 import com.springboot.pople.service.theater.TheaterFormService;
 import com.springboot.pople.service.tickting.TicktingService;
@@ -19,6 +19,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -49,6 +50,8 @@ public class TicktingController {
     private final SeatService seatService;
     private final TheaterFormService theaterFormService;
     private final UsersRepository usersRepository;
+    private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
 
     // 예매 하기
@@ -96,6 +99,7 @@ public class TicktingController {
 
         TicktingDTO ticktingDTO = TicktingDTO.builder()
                 .userid(users.getUserid())
+                .phone(users.getPhone())
                 .theaterCode(theaterId)
                 .movieCode(movieDTO.getMovieid())
                 .movieName(movieName)
@@ -106,7 +110,6 @@ public class TicktingController {
                 .ticktingPrice(costs1)
 
                 .dayDate(LocalDateTime.now())
-                .regDate(LocalDateTime.now())
                 .build();
 
         log.info(ticktingDTO);
@@ -183,8 +186,10 @@ public class TicktingController {
         Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 4);
 
         // 현재 로그인한 회원의 이메일과 페이징 객체를 인자로 전달하여 구매이력을 조회하는 서비스 요청
-        Page<OrderHistDTO> orderHistDTOList =
-                ticktingService.getOrderList(principal.getName(),pageable );
+        Page<OrderHistDTO> orderHistDTOList = ticktingService.getOrderList(principal.getName(),pageable );
+        log.info(orderHistDTOList);
+
+
 
         model.addAttribute("orders", orderHistDTOList);
         model.addAttribute("page", pageable.getPageNumber());// 총 페이지 수
@@ -198,10 +203,10 @@ public class TicktingController {
         return "order/orderHist";
     }
 
+
     // 3. 예매 취소 처리
     @PostMapping(value="/order/{orderId}/cancel")
-    public @ResponseBody ResponseEntity cancelOrder(
-            @PathVariable("orderId") Long orderId, Principal principal){
+    public @ResponseBody ResponseEntity cancelOrder(@PathVariable("orderId") Long orderId, Principal principal){
 
         log.info("==> 주문취소 상품: "+orderId);
         // 주문 취소 권한 검사
@@ -215,7 +220,48 @@ public class TicktingController {
         return new ResponseEntity(orderId, HttpStatus.OK);
 
     }
+    @PostMapping(value="/order/{orderId}/find")
+    public @ResponseBody ResponseEntity ticktingFind(@PathVariable("orderId") Long orderId, Principal principal){
+        log.info("티켓조회좀 부탁합시다 .");
+        OrderDTO orderDTO =   orderService.readOne(orderId);
+        log.info("1232132132132132132133"+orderDTO);
 
+        Optional<Order> order =orderRepository.findById(orderId);
+
+
+
+        return new ResponseEntity(orderId, HttpStatus.OK);
+
+    }
+    // 2. 회원(고객) 구매 이력 조회
+    @GetMapping(value = {"/tick","/tick/{page}"} )
+    public String ticktingHist(@PathVariable("page") Optional<Integer> page, Principal principal, Model model){
+
+        // 페이지 번호가 매개변수에 없으면 0으로 설정, 페이지에 보여질 레코드 수)
+        Pageable pageable = PageRequest.of(page.isPresent()?page.get():0, 4);
+        Page<TicktingHistDTO> orderHistDTOList = ticktingService.getTickList(principal.getName(),pageable );
+
+
+
+        // 현재 로그인한 회원의 이메일과 페이징 객체를 인자로 전달하여 구매이력을 조회하는 서비스 요청
+//        Page<TicktingDTO> orderHistDTOList = ticktingService.getTicktingList(principal.getName(),pageable );
+//        Page<MovieImg> orderHistDTOList2 = ticktingService.getImgTick(principal.getName(),pageable );
+//        log.info(orderHistDTOList);
+//        log.info("이미지받아라~~~!~!~"+orderHistDTOList2);
+//
+//
+//        model.addAttribute("img", orderHistDTOList2);
+        model.addAttribute("orders", orderHistDTOList);
+        model.addAttribute("page", pageable.getPageNumber());// 총 페이지 수
+        model.addAttribute("maxPage", 5);// 한줄에 보여질 페이지 번호 개수
+
+        log.info("==> 구매이력");
+        orderHistDTOList.getContent().forEach(x -> {
+            log.info(x);
+        });
+
+        return "order/test";
+    }
 
 
 

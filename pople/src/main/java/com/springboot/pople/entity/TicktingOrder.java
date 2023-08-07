@@ -5,27 +5,26 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-
 @Entity
 @Getter
 @Setter
 @ToString
-public class OrderMovie {
+public class TicktingOrder {
 
     @Id
     @GeneratedValue
-    @Column(name = "order_movie_id")
+    @Column(name = "tick_movie_id")
     private Long id;
 
-    // 하나의 상품은 여러 주문상품으로 연결
+    // 하나의 티켓은 여러 영화 연결
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
-    // 한 번의 주문에 여러 개의 상품을 주문할 수 있는 관계
+    // 한 번의 주문에 여러 개의 티켓을 주문할 수 있는 관계
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="order_id")
-    private Order order;
+    @JoinColumn(name ="tickting_id")
+    private Tickting tickting;
 
 
     private int orderPrice;
@@ -47,9 +46,5 @@ public class OrderMovie {
         return orderPrice*count;
     }
 
-    // 주문 취소시 예매 수량만큼 좌석 원상복귀 해주는 메서드
-  //  public void cancel() {
-  //      this.getMovie().addStock(count);
-    // }
 
 }

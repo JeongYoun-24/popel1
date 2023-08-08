@@ -14,6 +14,8 @@ import com.springboot.pople.repository.movie.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,15 +39,16 @@ public class MovieCommentService {
 
     public Long register(CommentDTO commentDTO) {
         // dto -> entity로 데이터 복사
-      Movie movie = Movie.builder().movieid(commentDTO.getMovieid()).build();
+        Movie movie = Movie.builder().movieid(commentDTO.getMovieid()).build();
 
-       Users users =Users.builder().userid(commentDTO.getUsersid()).build();
+        Users users =Users.builder().userid(commentDTO.getUsersid()).build();
 
 
         Comment comment = Comment.builder()
                 .movie(movie)
                 .users(users)
                 .content(commentDTO.getContent())
+                .title(commentDTO.getTitle())
                 .star(commentDTO.getStar())
                 .regDate(LocalDateTime.now())
                 .build();
@@ -57,13 +60,26 @@ public class MovieCommentService {
     }
 
 
-    public CommentDTO readOne(Long id) {
+    public CommentFormDTO readOne(Long id) {
         Optional<Comment> result = movieCommentRepository.findById(id);
-        Comment board = result.orElseThrow();
+        Comment comment = result.orElseThrow();
 
-        CommentDTO boardDto = modelMapper.map(board, CommentDTO.class);
 
-        return boardDto;
+//        CommentDTO boardDto = modelMapper.map(board, CommentDTO.class);
+
+        CommentFormDTO commentDTO = CommentFormDTO.builder()
+                .id(comment.getId())
+                .users(comment.getUsers())
+                .movie(comment.getMovie())
+                .title(comment.getTitle())
+                .content(comment.getContent())
+                .star(comment.getStar())
+                .regDate(comment.getRegDate())
+                .build();
+
+
+
+        return commentDTO;
     }
 
 
@@ -83,8 +99,12 @@ public class MovieCommentService {
         movieCommentRepository.deleteById(id);
     }
 
-    public  List<CommentFormDTO> findList(Long movieid ,Pageable pageable){
-     List<Comment> commentList = movieCommentRepository.findComment(movieid,pageable);
+    public Page<CommentFormDTO> findList(Long movieid , Pageable pageable){
+        //영화에 해당하는  댓글 조회
+        List<Comment> commentList = movieCommentRepository.findComment(movieid,pageable);
+
+        // 영화에 해당하는댓글 총 갯수
+        Long totalCount = movieCommentRepository.countComment(movieid);
         log.info(""+commentList);
         List<CommentFormDTO> commentDTOList= new ArrayList<>();
         for(Comment comment : commentList){
@@ -92,6 +112,7 @@ public class MovieCommentService {
                     .id(comment.getId())
                     .users(comment.getUsers())
                     .movie(comment.getMovie())
+                    .title(comment.getTitle())
                     .content(comment.getContent())
                     .star(comment.getStar())
                     .regDate(comment.getRegDate())
@@ -115,7 +136,8 @@ public class MovieCommentService {
         }
         log.info("fsdfsdfsdfsd"+commentDTOList);
 
-        return  commentDTOList;
+
+        return new PageImpl<>(commentDTOList, pageable, totalCount);
     }
 
 

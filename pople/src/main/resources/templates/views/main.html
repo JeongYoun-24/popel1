@@ -88,7 +88,7 @@
 					<th:block th:each="movie, status: ${movies.getContent()}">
 						<div class="col ">
 							<div class="card h-50">
-								<a th:href="'/movie/find/'+${movie.id} " class="link-secondary  link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
+								<a th:href="'/movie/find/'+${movie.movieName} " class="link-secondary  link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
 									<img th:src="${movie.imgUrl}" style="weight:300px; height:400px;"  class="card-img-top" th:alt="${movie.movieName}">
 								</a>
 								<div class="card-body">

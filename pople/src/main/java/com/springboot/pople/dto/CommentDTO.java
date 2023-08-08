@@ -27,6 +27,7 @@ public class CommentDTO {
     private String usersid;
     @NotEmpty
     @Size(min=3, max=100)
+    private String title; // 제목
     private String content; // 댓글 내용
     private LocalDateTime regDate; // 작성 날짜
     private int star; //별점

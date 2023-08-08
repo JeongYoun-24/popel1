@@ -28,6 +28,7 @@ public class Comment { // 영화 댓글
     @JoinColumn(name = "user_id")
     private Users users;
 
+    private String title; // 제목
     private String content; // 댓글 내용
     private LocalDateTime regDate; // 작성 날짜
     private int star; //별점

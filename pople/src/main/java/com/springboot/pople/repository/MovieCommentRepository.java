@@ -15,7 +15,8 @@ public interface MovieCommentRepository  extends JpaRepository<Comment,Long> {
     @Query("select o from Comment o where o.movie.movieid = :movieid order by o.id desc")
     List<Comment> findComment(@Param("movieid") Long movieid, Pageable pageable);
 
-
+    @Query("select count(o) from Comment o where o.movie.movieid = :movieid")
+    Long countComment(@Param("movieid") Long movieid);
 
 
 }

@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class BoardImg {
     @Id
     @Column(name="board_img_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String imgName;// 이미지 파일명

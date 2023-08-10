@@ -40,6 +40,9 @@ public class Board {
         this.title = title;
         this.content = content;
     }
+    public void countUp(){
+        this.hitcount +=1;
+    }
 
     public void updateItem(BoardFormDTO boardFormDTO){
         this.title = boardFormDTO.getTitle();

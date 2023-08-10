@@ -26,7 +26,7 @@ public class BoardFormDTO {
     private String content;
     @NotBlank(message = "작성자는 필수 입력값입니다.")
     private String writer;
-
+    private String hitcount;
     private LocalDateTime regDate;
 
     // 상품 저장 후 수정할 때 상품 이미지 정보를 저장하는 리스트

@@ -1,5 +1,6 @@
 package com.springboot.pople.service.board;
 
+import com.springboot.pople.dto.BoardImgDTO;
 import com.springboot.pople.entity.BoardImg;
 import com.springboot.pople.repository.BoardImgRepository;
 import com.springboot.pople.service.FileService;
@@ -39,7 +40,7 @@ public class BoardImgService {
                     boardImgFile.getBytes());
 
             // path: "d:/shop" => url:"/images" 와 1:1 연결(맵핑)
-            imgUrl ="/images/board/"+imgName;
+            imgUrl ="/images2/board/"+imgName;
         }
 
         // 상품 이미지 정보 저장
@@ -70,7 +71,7 @@ public class BoardImgService {
                     oriImgName,
                     boardImgFile.getBytes());
 
-            String imgUrl = "/images/board/" + imgName;
+            String imgUrl = "/images2/board/" + imgName;
 
             // 수정 폼으로 받은 상품이미지 정보 entity로 전달
             // entity가 변경되면 영속성 상태에서 자동으로 update쿼리 실행
@@ -82,6 +83,31 @@ public class BoardImgService {
         }
     }
 
+    public BoardImgDTO boardImg(Long boardid,String repimgYn){
+       BoardImg boardImg =  boardImgRepository.findByBoardIdAndRepImgYn(boardid,repimgYn);
+        log.info(boardImg);
+
+        BoardImgDTO boardImgDTO = new BoardImgDTO();
+        boardImgDTO.setRepImgYn(boardImg.getRepImgYn());
+        boardImgDTO.setImgName(boardImg.getImgName());
+        boardImgDTO.setImgUrl(boardImg.getImgUrl());
+        boardImgDTO.setOriImgName(boardImg.getOriImgName());
+        boardImgDTO.setId(boardImg.getId());
+        log.info(boardImgDTO);
+       return boardImgDTO;
+    }
+
+    public void remove(Long boardid) {
+        boardImgRepository.findDelete(boardid);
+    }
+
+    public BoardImgDTO findImg(Long boardid){
+     BoardImg boardImg= boardImgRepository.findByBoardId(boardid);
+
+     BoardImgDTO boardImgDTO = BoardImgDTO.of(boardImg);
+
+        return boardImgDTO;
+    }
 
 
 

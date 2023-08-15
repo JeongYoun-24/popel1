@@ -23,10 +23,16 @@ public class CartItem {
     private Cart cart;
 
     // 하나의 상품은 여러 장바구니의 장바구니 상품을 담을 수 있는 관계
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "item_id")
-//    private Item item;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id")
+    private Item item;
     private int count;
+    // 2. 장바구니에 담을 상품 수량 증감 처리
+    public void addCount(int count){
+        this.count += count;
+    }
 
+    // 3. 장바구니 뷰에서 수량의 변화가 생길 경우 상품 수량 처리
+    public void updateCount(int count){this.count = count;}
 
 }

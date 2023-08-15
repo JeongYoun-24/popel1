@@ -1,7 +1,9 @@
-package com.springboot.pople.service.movie;
+package com.springboot.pople.service.item;
 
-import com.springboot.pople.entity.MovieImg;
-import com.springboot.pople.repository.MovieImgRepository;
+
+import com.springboot.pople.entity.Item;
+import com.springboot.pople.entity.ItemImg;
+import com.springboot.pople.repository.item.ItemImgRepository;
 import com.springboot.pople.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,19 +19,17 @@ import javax.persistence.EntityNotFoundException;
 @RequiredArgsConstructor
 @Transactional
 @Log4j2
-public class MovieImgService {
+public class ItemImgService {
 
-//    @Value("${org.zerock.upload.path}")
-//    private String itemImgLocation;
-    @Value("${movieImgLocation}")
+    @Value("${itemImgLocation}")
     private String itemImgLocation;
 
-    private final MovieImgRepository movieImgRepository;
+    private final ItemImgRepository itemImgRepository;
     private final FileService fileService;
 
     // 1. 상품 이미지 정보 등록 서비스
-    public void saveMovieImg(MovieImg movieImg, MultipartFile movieImgFile) throws Exception{
-        String oriImgName = movieImgFile.getOriginalFilename();
+    public void saveItemImg(ItemImg itemImg, MultipartFile itemImgFile) throws Exception{
+        String oriImgName = itemImgFile.getOriginalFilename();
         String imgName = "";
         String imgUrl = "";
 
@@ -38,16 +38,15 @@ public class MovieImgService {
             imgName = fileService.uploadFile(
                     itemImgLocation, // 실제 업로드할 파일 위치=>"d:/shop/item"
                     oriImgName, // 파일이름
-                    movieImgFile.getBytes());
+                    itemImgFile.getBytes());
 
             // path: "d:/shop" => url:"/images" 와 1:1 연결(맵핑)
-            imgUrl ="/images/movie/"+imgName;
+            imgUrl ="/images/item/"+imgName;
         }
 
         // 상품 이미지 정보 저장
-        movieImg.updateItemImg(oriImgName, imgName, imgUrl);
-        movieImgRepository.save(movieImg);
-
+        itemImg.updateItemImg(oriImgName, imgName, imgUrl);
+        itemImgRepository.save(itemImg);
 
     }
 
@@ -57,7 +56,7 @@ public class MovieImgService {
         if (!itemImgFile.isEmpty()) {// 첨부(상품이미지)파일이 있으면 처리
 
             // 등록된 상품이미지 정보 호출
-            MovieImg savedItemImg = movieImgRepository
+            ItemImg savedItemImg = itemImgRepository
                     .findById(itemImgId)
                     .orElseThrow(EntityNotFoundException::new);
 
@@ -73,7 +72,7 @@ public class MovieImgService {
                     oriImgName,
                     itemImgFile.getBytes());
 
-            String imgUrl = "/images/movie/movie/" + imgName;
+            String imgUrl = "/images/item/" + imgName;
 
             // 수정 폼으로 받은 상품이미지 정보 entity로 전달
             // entity가 변경되면 영속성 상태에서 자동으로 update쿼리 실행
@@ -84,4 +83,5 @@ public class MovieImgService {
 
         }
     }
+
 }

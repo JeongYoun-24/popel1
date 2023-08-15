@@ -38,7 +38,7 @@ public class MovieService2 {
 
 //    @Value("${org.zerock.upload.path}")
 //    private String movieImgLocation;
-    @Value("itemImgLocation}")
+    @Value("movieImgLocation}")
     private String movieImgLocation;
 
     public Long saveMovie(

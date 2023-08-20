@@ -20,7 +20,7 @@ public class Item {
     @Column(name = "item_id")
     private Long id; // 상품 아이디
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="category_id")
     private Category category;   // 카테고리 폴딩키 연결
 
@@ -28,7 +28,7 @@ public class Item {
     private String itemDetail; // 상품 정보
     private int price;  // 상품 가격
     private int stockQty;  // 재고 수량
-    private String itemImg;
+    private String itemImg; // 상품 이미지
 
     @Enumerated(EnumType.STRING)
     private ItemSellStatus itemSellStatus;  // 재고 수량 여부
@@ -42,7 +42,7 @@ public class Item {
         this.itemSellStatus = itemFormDTO.getItemSellStatus();
     }
 
-    /*public void removeStock(int stockNumber){
+    public void removeStock(int stockNumber){
         // 최종 수량 = 현재 수량 - 주문 수량
         int restStock = this.stockQty - stockNumber;
         if (restStock<0){
@@ -56,7 +56,7 @@ public class Item {
     // 상품 주문 취소후 재고 수량 증가시키는 메서드
     public void addStock(int stockNumber){
         this.stockQty += stockNumber;
-    }*/
+    }
 
 
 }

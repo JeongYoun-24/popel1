@@ -2,12 +2,16 @@ package com.springboot.pople.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Getter
 @Setter
+@ToString
 @Table(name = "cart_item")
 public class CartItem {
 
@@ -27,6 +31,20 @@ public class CartItem {
     @JoinColumn(name = "item_id")
     private Item item;
     private int count;
+    private LocalDateTime regDate;
+
+    // 추가
+    // 1. 장바구니에 담을 상품 엔티티
+    public static CartItem createCartItem(Cart cart,Item item ,int count){
+        CartItem cartItem = new CartItem();
+
+        cartItem.setCart(cart);
+        cartItem.setItem(item);
+        cartItem.setCount(count);
+        cartItem.setRegDate(LocalDateTime.now());
+
+        return cartItem;
+    }
     // 2. 장바구니에 담을 상품 수량 증감 처리
     public void addCount(int count){
         this.count += count;
@@ -34,5 +52,7 @@ public class CartItem {
 
     // 3. 장바구니 뷰에서 수량의 변화가 생길 경우 상품 수량 처리
     public void updateCount(int count){this.count = count;}
+
+
 
 }

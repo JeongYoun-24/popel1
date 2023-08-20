@@ -5,6 +5,7 @@ import com.springboot.pople.service.item.CategoryService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,12 +19,13 @@ public class CategoryController {
 
         private final CategoryService categoryService;
 
-        @GetMapping(value = "/category")
-        public String GetategoryForm(){
+    @PreAuthorize("isAuthenticated()") // 로그인 상태인 경우만 처리
+    @GetMapping(value = "/category")
+    public String GetategoryForm(){
 
 
-            return "item/category";
-        }
+        return "item/category";
+    }
 
 
     @PostMapping(value = "/category")

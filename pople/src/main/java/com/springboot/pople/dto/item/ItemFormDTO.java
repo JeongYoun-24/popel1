@@ -28,6 +28,8 @@ public class ItemFormDTO {
     private String itemDetail;
     @NotNull(message = "재고수량은 필수 입력 값입니다.")
     private Integer stockQty;
+    private String imgUrl;
+    private String itemImg;
 
     private ItemSellStatus itemSellStatus;
     // 상품 저장 후 수정할 때 상품 이미지 정보를 저장하는 리스트

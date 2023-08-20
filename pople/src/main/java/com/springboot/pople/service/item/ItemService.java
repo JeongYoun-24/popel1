@@ -146,14 +146,40 @@ public class ItemService {
         List<Item> list= itemRepository.findByCategoryId(categoryId);
         log.info(list);
 
-        List<ItemFormDTO> formDTOList = new ArrayList<>();
+        List<ItemFormDTO> ListDTO = new ArrayList<>();
+
+        ItemFormDTO formDTOList = new ItemFormDTO();
+        List<ItemImgDTO> itemImgDTOList = new ArrayList<>();
         for(Item item: list){
             ItemFormDTO itemImgDTO = ItemFormDTO.of(item);// entity->dto 메서드호출
-            formDTOList.add(itemImgDTO);
+//            ListDTO.add(itemImgDTO);
 
+            List<ItemImg> itemImgList =
+                    itemImgRepository.findByItemIdOrderByIdAsc(itemImgDTO.getId());
+            log.info("fdsfdsfd"+itemImgList);
+            // 2. List안에 entity 값 -> List구조에 dto로 변환
+//            List<ItemImgDTO> itemImgDTOList = new ArrayList<>();
+            for(ItemImg itemImg: itemImgList){
+                ItemImgDTO itemImgDTO2 = ItemImgDTO.of(itemImg);// entity->dto 메서드호출
+
+
+
+                itemImgDTOList.add(itemImgDTO2);
+                log.info("이미지"+itemImgDTOList);
+
+                itemImgDTO.setImgUrl(itemImg.getImgUrl());
+
+
+                itemImgDTO.setItemImgDTOList(itemImgDTOList);
+
+            }
+            ListDTO.add(itemImgDTO);
         }
 
-        return formDTOList;
+
+    log.info("????"+ListDTO);
+
+        return ListDTO;
     }
 
 //    // 영화 정보(기본정보, 이미지) 읽어오기

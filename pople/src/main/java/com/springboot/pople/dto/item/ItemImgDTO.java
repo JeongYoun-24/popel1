@@ -3,9 +3,10 @@ package com.springboot.pople.dto.item;
 import com.springboot.pople.entity.ItemImg;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.modelmapper.ModelMapper;
 
-@Getter @Setter
+@Getter @Setter@ToString
 public class ItemImgDTO {
 
     private Long id;

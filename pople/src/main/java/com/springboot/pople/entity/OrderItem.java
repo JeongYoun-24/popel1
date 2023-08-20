@@ -20,8 +20,8 @@ public class OrderItem  {
 
     // 한 번의 주문에 여러 개의 상품을 주문할 수 있는 관계
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="order_id")
-    private Order order;
+    @JoinColumn(name ="order_id2")
+    private Order2 order;
 
 
     private int orderPrice;
@@ -30,7 +30,7 @@ public class OrderItem  {
 //    private LocalDateTime regTime;
 //    private LocalDateTime updateTime;
 
-   /* // 주문 상품정보, 수량
+    // 주문 상품정보, 수량
     public static OrderItem createOrderItem(Item item, int count){
         OrderItem orderItem = new OrderItem();
 
@@ -51,7 +51,7 @@ public class OrderItem  {
     public void cancel() {
         this.getItem().addStock(count);
     }
-*/
+
 
 }
 

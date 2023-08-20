@@ -41,7 +41,7 @@ public class ItemImgService {
                     itemImgFile.getBytes());
 
             // path: "d:/shop" => url:"/images" 와 1:1 연결(맵핑)
-            imgUrl ="/images/item/"+imgName;
+            imgUrl ="/images3/item/"+imgName;
         }
 
         // 상품 이미지 정보 저장
@@ -72,7 +72,7 @@ public class ItemImgService {
                     oriImgName,
                     itemImgFile.getBytes());
 
-            String imgUrl = "/images/item/" + imgName;
+            String imgUrl = "/images3/item/" + imgName;
 
             // 수정 폼으로 받은 상품이미지 정보 entity로 전달
             // entity가 변경되면 영속성 상태에서 자동으로 update쿼리 실행

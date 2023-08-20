@@ -2,12 +2,14 @@ package com.springboot.pople.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 @Entity
 @Table(name="item_img")
 @Getter
 @Setter
+@ToString
 public class ItemImg {
 
     @Id

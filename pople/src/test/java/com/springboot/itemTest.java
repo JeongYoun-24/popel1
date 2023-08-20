@@ -44,9 +44,9 @@ public class itemTest {
             log.info(item);
         });
 
-        List<ItemFormDTO> itemFormDTOList=  itemService.itemList(id);
-
-     log.info(itemFormDTOList);
+//        List<ItemFormDTO> itemFormDTOList=  itemService.itemList(id);
+//
+//     log.info(itemFormDTOList);
 
     }
 

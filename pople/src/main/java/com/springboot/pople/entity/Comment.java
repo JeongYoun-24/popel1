@@ -31,6 +31,7 @@ public class Comment { // 영화 댓글
     private String title; // 제목
     private String content; // 댓글 내용
     private LocalDateTime regDate; // 작성 날짜
-    private int star; //별점
+//    private int star; //별점
+
 
 }

@@ -2,6 +2,7 @@ package com.springboot.pople.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Table(name="movie_img")
 @Getter
 @Setter
+@ToString
 public class MovieImg {
     @Id
     @Column(name="movie_id_img")

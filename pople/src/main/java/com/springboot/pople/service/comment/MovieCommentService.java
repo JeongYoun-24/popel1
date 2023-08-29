@@ -49,7 +49,7 @@ public class MovieCommentService {
                 .users(users)
                 .content(commentDTO.getContent())
                 .title(commentDTO.getTitle())
-                .star(commentDTO.getStar())
+//                .star(commentDTO.getStar())
                 .regDate(LocalDateTime.now())
                 .build();
 
@@ -73,7 +73,7 @@ public class MovieCommentService {
                 .movie(comment.getMovie())
                 .title(comment.getTitle())
                 .content(comment.getContent())
-                .star(comment.getStar())
+//                .star(comment.getStar())
                 .regDate(comment.getRegDate())
                 .build();
 
@@ -114,7 +114,7 @@ public class MovieCommentService {
                     .movie(comment.getMovie())
                     .title(comment.getTitle())
                     .content(comment.getContent())
-                    .star(comment.getStar())
+//                    .star(comment.getStar())
                     .regDate(comment.getRegDate())
                     .build();
             commentDTOList.add(commentDTO);

@@ -26,57 +26,60 @@
 	<h3>메인 페이지</h3>
 	<div layout:fragment="content" class="m-2 p-2 ">
 
-			<!-- 해당 페이지 콘텐츠 영역 작성 -->
-			<div id="carouselExampleControls" style=" width: 800px; color:#99999;" class="carousel w-100 " data-bs-ride="carousel">
+		<!-- 해당 페이지 콘텐츠 영역 작성 -->
+		<div id="carouselExampleControls" style=" width: 800px; color:#99999;" class="carousel w-100 " data-bs-ride="carousel">
 
-				<div class="carousel-inner" >
-					<div class="carousel-item active w-100">
-						<img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87154/87154_320.jpg" class="d-block movieimg  " alt="...">
-					</div>
-					<div class="carousel-item w-100">
-						<img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87149/87149_320.jpg" class="d-block movieimg  " alt="...">
-					</div>
-					<div class="carousel-item w-100">
-						<img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87034/87034_320.jpg" class="d-block movieimg "  alt="...">
-					</div>
-					<div class="carousel-item w-100">
-						<img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87034/87034_320.jpg" class="d-block movieimg " alt="...">
-					</div>
-					<div class="carousel-item w-100">
-						<img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87046/87046_320.jpg" class="d-block movieimg " alt="...">
-					</div>
-					<div class="carousel-item w-100">
-						<img src="https://img.megabox.co.kr/SharedImg/2023/05/07/XbkZesk2KFfQbbagfMtyp8rVUWi8568M_420.jpg " class="d-block movieimg " alt="...">
-					</div>
+			<div class="carousel-inner" >
+				<div class="carousel-item active w-100">
+					<img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87154/87154_320.jpg" class="d-block movieimg  " alt="...">
+				</div>
+				<div class="carousel-item w-100">
+					<img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87149/87149_320.jpg" class="d-block movieimg  " alt="...">
+				</div>
+				<div class="carousel-item w-100">
+					<img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87034/87034_320.jpg" class="d-block movieimg "  alt="...">
+				</div>
+				<div class="carousel-item w-100">
+					<img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87034/87034_320.jpg" class="d-block movieimg " alt="...">
+				</div>
+				<div class="carousel-item w-100">
+					<img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87046/87046_320.jpg" class="d-block movieimg " alt="...">
+				</div>
+				<div class="carousel-item w-100">
+					<img src="https://img.megabox.co.kr/SharedImg/2023/05/07/XbkZesk2KFfQbbagfMtyp8rVUWi8568M_420.jpg " class="d-block movieimg " alt="...">
+				</div>
+				<div class="carousel-item w-100">
+					<img src="https://img.cgv.co.kr/Movie/Thumbnail/Poster/000087/87175/87175_1000.jpg" class="d-block movieimg " alt="...">
+				</div>
+			</div>
+
+
+			<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+		<!--	<div class="position-absolute" style="top:200px ; right: 500px;">
+				<div class="" >
+					<div class="p-2"><a href=""><span>빠른예매</span></a></div>
+					<div class="p-2"><a href=""><span>박스오피스</span></a></div>
+					<div class="p-2"><a href=""><span>상영시간표</span></a></div>
+					<div class="p-2"><a href=""><span>스토어</span></a></div>
+
 				</div>
 
-
-				<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-					<span class="visually-hidden">Previous</span>
-				</button>
-				<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-					<span class="carousel-control-next-icon" aria-hidden="true"></span>
-					<span class="visually-hidden">Next</span>
-				</button>
-			</div>
-	<!--	<div class="position-absolute" style="top:200px ; right: 500px;">
-			<div class="" >
-				<div class="p-2"><a href=""><span>빠른예매</span></a></div>
-				<div class="p-2"><a href=""><span>박스오피스</span></a></div>
-				<div class="p-2"><a href=""><span>상영시간표</span></a></div>
-				<div class="p-2"><a href=""><span>스토어</span></a></div>
-
-			</div>
-
-		</div>-->
+			</div>-->
 		<div>
 			<div class="mt-5">
-				<button>무비차트</button>
-				<button>상영예정작</button>
+				<button class="btn">무비차트</button>
+				<button class="btn">상영예정작</button>
 
 			</div>
-<!--				[[${movies.getContent()}]]-->
+			<!--				[[${movies.getContent()}]]-->
 			<input type="hidden" name="searchQuery" th:value="${movieSearchDTO.searchQuery}">
 			<div th:if="${not #strings.isEmpty(movieSearchDTO.searchQuery)}" class="center">
 				<p class="h3 font-weight-bold" th:text="${movieSearchDTO.searchQuery} + '검색결과' ">  </p>

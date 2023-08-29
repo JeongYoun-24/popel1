@@ -19,15 +19,17 @@ public class CartDetailDTO { // 장바구니 조회 페이지에 전달할 DTO
 
     private Long id;    // 장바구니 상품 아이디
     private String itemName;      // 상품이름
-    private int price;          // 가격
+    private int price;              // 상품 가격
+    private String itemDetail;      // 상품 정보
     private int count;          // 상품 수량
     private String imgUrl;      // 상품 이미지 경로
 
     // 장바구니 페이지에 전달할 데이터를 생성자의 파라미터로 만들어준다
-    public CartDetailDTO(Long cartItemId,String itemName,int price , int count,String imgUrl){
+    public CartDetailDTO(Long cartItemId,String itemName,String itemDetail ,int price , int count,String imgUrl){
         this.id = cartItemId;
         this.itemName = itemName;
         this.price= price;
+        this.itemDetail = itemDetail;
         this.count=count;
         this.imgUrl = imgUrl;
 

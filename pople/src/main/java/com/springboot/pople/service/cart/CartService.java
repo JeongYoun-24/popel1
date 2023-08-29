@@ -1,5 +1,6 @@
 package com.springboot.pople.service.cart;
 
+import com.springboot.pople.dto.OrderDTO2;
 import com.springboot.pople.dto.OrderHistDTO2;
 import com.springboot.pople.dto.OrderItemDTO;
 import com.springboot.pople.dto.item.CartDetailDTO;
@@ -119,6 +120,44 @@ public class CartService {
                 .orElseThrow(EntityNotFoundException::new);
         cartItem.updateCount(count);
     }
+
+
+    // 장바구니에서 상품 삭제(상품번호를 파라미터로 받아서 삭제하는)메서드
+     public void deleteCart(Long cartItemId){
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(EntityNotFoundException::new);
+
+        cartItemRepository.delete(cartItem);
+    }
+    /*
+    public Long orderCart(List<?> cartItemList,String name){
+        List<OrderDTO2> orderDTO2List =new ArrayList<>();
+
+        for(CartOrderDTO cartOrderDTO :cartItemList ){
+            CartItem cartItem = cartItemRepository.findById(cartOrderDTO.getCartItemId)
+                    .orElseThrow(EntityNotFoundException::new);
+
+            OrderDTO2 orderDTO2 = new OrderDTO2();
+            orderDTO2.setItemId(cartItem.getItem().getId());
+            orderDTO2.setCount(cartItem.getCount());
+            orderDTO2List.add(orderDTO2);
+        }
+
+        Long orderId = orderService.orders(orderDTO2List,name);
+        for(CartOrderDTO cartOrderDTO : orderDTO2List){
+            CartItem cartItem = cartItemRepository.findById(cartOrderDTO.getCartItemId)
+                    .orElseThrow(EntityNotFoundException::new);
+
+            cartItemRepository.delete(cartItem);
+
+        }
+
+
+        return orderId;
+    }*/
+
+
+
 
 
 

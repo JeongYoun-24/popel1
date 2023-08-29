@@ -13,7 +13,7 @@ import java.util.Date;
 @Setter
 @ToString
 @Table(name = "cart_item")
-public class CartItem {
+public class    CartItem {
 
     @Id
     @GeneratedValue

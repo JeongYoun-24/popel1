@@ -18,7 +18,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(name = "Movie")
-public class Movie {  // 영화
+public class    Movie {  // 영화
 
     @Id
     @Column(nullable = false,name = "movie_id")
@@ -40,7 +40,7 @@ public class Movie {  // 영화
     @Enumerated(EnumType.STRING)
     private MovieStatus movieStatus;  // 영화 게시 여부
 
-    private int price;
+//    private int price;
 
 
     public void change(String movie_name,String movie_poster,String movie_summary){
@@ -53,11 +53,11 @@ public class Movie {  // 영화
         this.movieDate = movieDate;
         this.movieStatus = movieStatus;
     }
-    public void change2(Boolean movie_status){ // 게시여부 수정
+    public void change3(Boolean movie_status){ // 게시여부 수정
         this.movieStatus = movieStatus;
     } // 게시 여부 수정
 
-    public void updateItem(MovieFormDTO movieFormDTO){
+    public void updateMovie(MovieFormDTO movieFormDTO){
         this.movieName = movieFormDTO.getMovieName();
 //        this.moviePoster = movieFormDTO.get;
         this.movieSummary = movieFormDTO.getMovieSummary();

@@ -2,7 +2,9 @@ package com.springboot.pople.entity;
 
 import com.springboot.pople.constant.Role;
 import com.springboot.pople.dto.UsersDTO;
+import com.springboot.pople.repository.UsersRepository;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
 @Table(name = "Users")
 @ToString(exclude = "role" )
 public class Users {
+
 
     @Id
     @Column(nullable = false,name = "user_id")
@@ -43,10 +46,14 @@ public class Users {
 
     }
     public void pwdUpdate(String password, PasswordEncoder passwordEncoder){
-        String password2 = passwordEncoder.encode(password);
-//        users.setPassword(password);
-        this.password = password2;
+        Users users = new Users();
 
+        this.password = password;
+        String password2 = passwordEncoder.encode(password);
+        users.setPassword(password2);
+//        usersRepository.save(users);
+
+//        return users;
     }
 
 

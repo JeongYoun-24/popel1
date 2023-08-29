@@ -155,7 +155,7 @@ public class MovieController {
         log.info(result);
 
 
-        if(result == 19){
+        if(result < 0){
             model.addAttribute("isOk","등록완료");
 
         }else {
@@ -188,6 +188,7 @@ public class MovieController {
             @RequestParam("movieImgFile") List<MultipartFile> movieImgFileList   //"itemImgFile" 클라이언트로 넘겨받은 매개변수(files객체)
     ){
         log.info("===> Post /movie/admin/register 요청");
+        log.info(movieImgFileList.toString());
 
         if (bindingResult.hasErrors()){
             return "movie/register";

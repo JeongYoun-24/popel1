@@ -51,15 +51,17 @@ public class MovieService2 {
 
         // 전달 받은 데이터 modelmapper 통해서 변환
         Movie movie = movieFormDTO.createMovie();//dto->entity로 전달
-        log.info(movie+"이름좀나와라 시발아");
+        log.info(movie+"이름좀나와라");
         movie.setMovieStatus(movieFormDTO.getMovieStatus());
         movieRepository.save(movie);
 
+        log.info(movieImgFileList.size());
         // 이미지등록
         for(int i=0; i<movieImgFileList.size(); i++){
             MovieImg movieImg = new MovieImg();
 
             movieImg.setMovie(movie);// 상품 이미지 엔티티에 상품엔티티를 맵핑
+            log.info(movieImg);
 
             // 대표 이미지 여부 설정
             if (i==0){
@@ -67,7 +69,7 @@ public class MovieService2 {
             }else{
                 movieImg.setRepImgYn("N");
             }
-
+            log.info(movieImg.toString());
             // 영화 이미지 정보 저장: 영화이미지 엔티티 DB 반영 및 파일업로드처리
             movieImgService.saveMovieImg(movieImg, movieImgFileList.get(i));
             movie.setMoviePoster(movieImg.getImgName());
@@ -117,7 +119,7 @@ public class MovieService2 {
                 .orElseThrow(EntityNotFoundException::new);
 
         // 5.2 상품 정보 수정폼으로 부터 전달 받은 data -> entity전달
-        movie.updateItem(movieFormDTO);
+        movie.updateMovie(movieFormDTO);
         //itemeRpository.save(item); // 생략
         // => 영속성상태=> 엔티티변경시 변경감지기능동작하여 update쿼리실행
         List<Long> movieImgIds = movieFormDTO.getMovieImgIds();

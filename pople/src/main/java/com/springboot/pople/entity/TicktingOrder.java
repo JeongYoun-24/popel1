@@ -36,7 +36,7 @@ public class TicktingOrder {
         orderItem.setMovie(movie);// 주문 상품 설정
         orderItem.setCount(count);// 주문 수량 설정
         orderItem.setOrderPrice(price);
-        orderItem.setOrderPrice(movie.getPrice());// 주문 가격 설정
+//        orderItem.setOrderPrice(movie.getPrice());// 주문 가격 설정
 
 //        item.removeStock(count); // 주문시 재고 수량 감소
 

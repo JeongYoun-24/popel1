@@ -65,7 +65,7 @@ public class MovieTest {
                 .moviePoster("jpg")
                 .movieSummary("이때까지 이런 영화는 없었다 ㅇㅈ?")
                 .movieTime("188분")
-                .moveiRating("15세이상")
+                .movieRating("15세이상")
                 .movieDate("7/30")
 //                .movieStatus(true)
                 .build();

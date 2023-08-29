@@ -1,7 +1,9 @@
 package com.springboot.pople.service.movie;
 
+import com.springboot.pople.entity.Movie;
 import com.springboot.pople.entity.MovieImg;
 import com.springboot.pople.repository.MovieImgRepository;
+import com.springboot.pople.repository.movie.MovieRepository;
 import com.springboot.pople.service.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,13 +24,16 @@ public class MovieImgService {
 //    @Value("${org.zerock.upload.path}")
 //    private String itemImgLocation;
     @Value("${movieImgLocation}")
-    private String itemImgLocation;
+    private String movieImgLocation;
 
     private final MovieImgRepository movieImgRepository;
     private final FileService fileService;
+    private final MovieRepository movieRepository;
 
     // 1. 상품 이미지 정보 등록 서비스
     public void saveMovieImg(MovieImg movieImg, MultipartFile movieImgFile) throws Exception{
+        log.info("이미지값"+movieImg);
+        log.info("이미지값2"+movieImgFile.toString());
         String oriImgName = movieImgFile.getOriginalFilename();
         String imgName = "";
         String imgUrl = "";
@@ -36,18 +41,21 @@ public class MovieImgService {
         // 파일 업로드
         if (!StringUtils.isEmpty(oriImgName)){
             imgName = fileService.uploadFile(
-                    itemImgLocation, // 실제 업로드할 파일 위치=>"d:/shop/item"
+                    movieImgLocation,
                     oriImgName, // 파일이름
                     movieImgFile.getBytes());
 
-            // path: "d:/shop" => url:"/images" 와 1:1 연결(맵핑)
             imgUrl ="/images/movie/"+imgName;
         }
 
         // 상품 이미지 정보 저장
         movieImg.updateItemImg(oriImgName, imgName, imgUrl);
+        log.info("이미지값3"+movieImg);
         movieImgRepository.save(movieImg);
 
+      //  Movie movie = movieRepository.findById(movieImg.getMovie().getMovieid()).orElseThrow(EntityNotFoundException::new);
+      //  movie.setMoviePoster(movieImg.getImgName());
+      //  movieRepository.save(movie);
 
     }
 
@@ -63,13 +71,13 @@ public class MovieImgService {
 
             // 등록된(기존) 상품이미지 파일 삭제
             if (!StringUtils.isEmpty(savedItemImg.getImgName())) {
-                fileService.deleteFile(itemImgLocation + "/" + savedItemImg.getImgName());
+                fileService.deleteFile(movieImgLocation + "/" + savedItemImg.getImgName());
             }
 
             // 변경된 상품이미지 업로드 및 상품이미지 entity 정보 변경(DB에는 반영안된 상태)
             String oriImgName = itemImgFile.getOriginalFilename();
             String imgName = fileService.uploadFile(
-                    itemImgLocation,
+                    movieImgLocation,
                     oriImgName,
                     itemImgFile.getBytes());
 

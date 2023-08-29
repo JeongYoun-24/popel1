@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -77,8 +78,13 @@ public class UsersController {
 
 
         try {
+//            usersDTO.setPassword(password);
+//
+//            usersService.pwdUpdate(usersDTO);
+
             Users users = Users.createMember(usersDTO, passwordEncoder);
-            log.info(users);
+            users.setRegDate(LocalDateTime.now());
+            log.info("회원가입 값"+users);
 
             usersJoinService.saveUsers(users);
         }catch (IllegalStateException e){

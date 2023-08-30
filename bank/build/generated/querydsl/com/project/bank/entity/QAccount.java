@@ -24,9 +24,7 @@ public class QAccount extends EntityPathBase<Account> {
 
     public final StringPath accountNumber = createString("accountNumber");
 
-    public final NumberPath<Integer> balance = createNumber("balance", Integer.class);
-
-    public final DateTimePath<java.time.LocalDateTime> createDate = createDateTime("createDate", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> cerateDate = createDateTime("cerateDate", java.time.LocalDateTime.class);
 
     public final QMember member;
 

@@ -24,7 +24,7 @@ public class QHistory extends EntityPathBase<History> {
 
     public final QAccount account;
 
-    public final NumberPath<Integer> balance = createNumber("balance", Integer.class);
+    public final NumberPath<Integer> ballance = createNumber("ballance", Integer.class);
 
     public final StringPath chk = createString("chk");
 

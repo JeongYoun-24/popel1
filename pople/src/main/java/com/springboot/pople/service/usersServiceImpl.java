@@ -53,8 +53,8 @@ public class usersServiceImpl implements UsersService{
     @Override
     public String register(UsersDTO usersDTO) {
         // dto-> entity로 데이터 복사
-        Users board = modelMapper.map(usersDTO,Users.class);
-        String user_id = usersRepository.save(board).getUserid();
+        Users users = modelMapper.map(usersDTO,Users.class);
+        String user_id = usersRepository.save(users).getUserid();
 
         return user_id;
     }

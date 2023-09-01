@@ -66,7 +66,7 @@
 						<div class="d-flex justify-content-end">
 							<button class="rounded rounded-4 btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">이체</button>
 							<button class="rounded rounded-4 btn btn-outline-primary"data-bs-toggle="modal" data-bs-target="#exampleModal2">입금</button>
-							<button class="rounded rounded-4 btn btn-outline-primary">카드</button>
+							<button class="rounded rounded-4 btn btn-outline-primary"><a th:href="@{'/history/list/'+${accountDTO.accountNumber}}">내역</a> </button>
 						</div>
 
 					</div>
@@ -156,7 +156,7 @@
 		crossorigin="anonymous"></script>
 <script layout:fragment="script"    th:inline="javascript">
 	$(function(){
-		$('#Acount').hide()
+<!--		$('#Acount').hide()-->
 
 		$('#on').click(function(){
 		console.log("감추기")
@@ -261,8 +261,8 @@
 				var data = {
                 balance : $('#balance').val(),
                 name : $('#name').val(),
-                 accountNumber : $('#accountNumber').val()
-
+                 accountNumber : $('#accountNumber').val(),
+                 accountNumberId : $('#accountNumberId').val()
                 };
 			console.log(data)
 

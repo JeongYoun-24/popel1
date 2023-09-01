@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 public class Account {
 
     @Id
+    @Column(name = "account_number")
     private String accountNumber;       // 계좌 번호
     private LocalDateTime cerateDate;   // 생성 일자
     private int balance;                // 계좌 잔액

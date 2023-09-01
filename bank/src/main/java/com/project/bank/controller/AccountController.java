@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityExistsException;
 import java.security.Principal;
 import java.util.HashMap;
 
@@ -37,6 +38,7 @@ public class AccountController {
         if(principal == null){
             model.addAttribute("msg","로그인후 이용가능합니다.");
             return "redirect:members/login";
+
         }
 
 
@@ -179,9 +181,10 @@ public class AccountController {
     public ResponseEntity MemberAccount(@RequestBody HashMap<String,Object> map, Model model){
         log.info("계좌 입금 요청");
 
-        String test = (String) map.get("balance");
-        String name = (String) map.get("name");
-        String accountNumber = (String) map.get("accountNumber");
+        String test = (String) map.get("balance");                  // 보낸 금액
+        String name = (String) map.get("name");                    // 보낸사람 이름
+        String accountNumber = (String) map.get("accountNumber"); // 받는사람 계좌
+        String accountNumberId = (String) map.get("accountNumberId"); // 보낸 사람 계좌
 
         log.info("금액"+test);
         log.info("보낸사람"+name);
@@ -192,13 +195,33 @@ public class AccountController {
         log.info("금액"+balance);
 
         AccoutDTO accoutDTO = AccoutDTO.builder()
-                .accountNumber(accountNumber)
+                .accountNumber(accountNumberId)
                 .balance(balance)
                 .build();
 
+
+        Account account = accountRepository.findById(accoutDTO.getAccountNumber()).orElseThrow(EntityExistsException::new);
+
+        log.info("금액 들어있는금액 "+account.getBalance());
+
+        int price = accoutDTO.getBalance() ;
+        int price2 = account.getBalance();
+
+
+
+        log.info("금액 들어있는금액 "+price);
+        log.info("금액 들어있는금액 "+price2);
+
+        int price3 = price2 - price;
+
+        log.info("금액 들어있는금액3 "+price3);
+
+        int price4 = price3+0000;
+        log.info("금액 들어있는금액4 "+price4);
+
         int result =0;
         try {
-            result = accountService.transfer(accoutDTO,name);
+           result = accountService.transfer(accoutDTO,name,accountNumber);
             log.info("입금성공");
             log.info(result);
         }catch (Exception e){

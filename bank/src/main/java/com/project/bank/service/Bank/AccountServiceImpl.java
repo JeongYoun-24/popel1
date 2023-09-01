@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -134,32 +135,82 @@ public class AccountServiceImpl  implements AccountService{
                 .build();
         log.info(history1.toString());
 
-      History  history = historyRepository.save(history1);
+        History  history = historyRepository.save(history1);
 
 
         return history.getBalance();
     }
 
     @Override
-    public int transfer(AccoutDTO accoutDTO, String name) {
-
-        Account account = accountRepository.findById(accoutDTO.getAccountNumber()).orElseThrow(EntityExistsException::new);
-        int balance =accoutDTO.getBalance()-account.getBalance();
-        log.info("금액 빼기 "+balance);
-
-        account.setBalance(balance);
-        account.setCerateDate(LocalDateTime.now());
-        log.info("계좌 값"+account);
-        // 계좌 저장
-        accountRepository.save(account);
-
-        //이체 받는사람 값 저장
+    public int transfer(AccoutDTO accoutDTO, String name,String accountNumber) {
 
 
+            Account account = accountRepository.findById(accoutDTO.getAccountNumber()).orElseThrow(EntityExistsException::new);
+            log.info("금액 빼기 "+account.getBalance());
+            log.info("금액 빼기 "+accoutDTO.getBalance());
+            int balance =account.getBalance()-accoutDTO.getBalance();
+            log.info("금액 빼기 "+balance);
+
+            account.setBalance(balance);
+            account.setCerateDate(LocalDateTime.now());
+            log.info("계좌 값"+account);
+            // 계좌 저장
+            accountRepository.save(account);
+
+            int Balance = -accoutDTO.getBalance();
+
+                Account account2 = accountRepository.findById(accountNumber).orElseThrow(EntityExistsException::new);
+
+
+            Member member = memberRepository.findByMemberId(account2.getMember().getMemberId());
+
+                // 돈 보낸 계좌내역 업데이트
+                History history = History.builder()
+                        .balance(Balance)              // 보낸금액
+                        .memberName(member.getName()) // 받는사람 이름
+                        .account(account)              // 보낸는사람 계좌
+                        .updateDate(LocalDateTime.now())  // 보낸날짜
+                        .chk("이체")
+                        .build();
+                // 계좌 내역 저장
+                historyRepository.save(history);
 
 
 
-        return 0;
+
+
+
+        // 받는금액 기존 계좌금액과 더하기
+        int balance2 = account2.getBalance()+accoutDTO.getBalance();
+        log.info("받는금액 더하기 "+account2.getBalance());
+        log.info("받는금액 더하기 "+accoutDTO.getBalance());
+        log.info("총금액 더하기 "+balance2);
+
+
+
+        account2.setBalance(balance2);
+        account2.setCerateDate(LocalDateTime.now());
+
+        accountRepository.save(account2);
+
+
+
+            // 계좌 내역 업데이트
+            History history1 = History.builder()
+                    .balance(accoutDTO.getBalance())
+                    .memberName(name)
+                    .account(account2)
+                    .updateDate(LocalDateTime.now())
+                    .chk("입금")
+                    .build();
+
+            historyRepository.save(history1);
+
+
+
+
+
+        return history1.getBalance();
     }
 
     @Override

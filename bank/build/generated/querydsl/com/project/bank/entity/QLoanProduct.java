@@ -32,6 +32,8 @@ public class QLoanProduct extends EntityPathBase<LoanProduct> {
 
     public final NumberPath<Long> productNo = createNumber("productNo", Long.class);
 
+    public final StringPath repaymentDate = createString("repaymentDate");
+
     public QLoanProduct(String variable) {
         this(LoanProduct.class, forVariable(variable), INITS);
     }

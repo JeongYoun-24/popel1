@@ -24,13 +24,15 @@ public class QHistory extends EntityPathBase<History> {
 
     public final QAccount account;
 
-    public final NumberPath<Integer> ballance = createNumber("ballance", Integer.class);
+    public final NumberPath<Integer> balance = createNumber("balance", Integer.class);
 
     public final StringPath chk = createString("chk");
 
     public final NumberPath<Long> Id = createNumber("Id", Long.class);
 
     public final StringPath memberName = createString("memberName");
+
+    public final NumberPath<Integer> saveBalance = createNumber("saveBalance", Integer.class);
 
     public final DateTimePath<java.time.LocalDateTime> updateDate = createDateTime("updateDate", java.time.LocalDateTime.class);
 

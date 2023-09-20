@@ -59,6 +59,8 @@ public class MovieController {
         return "movie/movieFind";
     }
 
+
+    // 영화 이름으로 검색 
     @PostMapping(value = "/movieList")
     public String movieList(Model model,String movieName){
         log.info(movieName);
@@ -75,6 +77,8 @@ public class MovieController {
     }
 
 
+
+    // 영화 상세 페이지
     @GetMapping(value = {"/find/{movieName}","/find/{movieName}/{page}"} )
     public String getMovieFind(@PathVariable("movieName") String movieName,@PathVariable("page") Optional<Integer> page , Model model){
     log.info("영화 상세 정보 요청 ㄱㄱ~~");
@@ -174,6 +178,7 @@ public class MovieController {
         return "movie/register";
     }
 
+    // 관리자 영화 등록 페이지
     @GetMapping(value="/admin/register")
     public String itemForm(Model model){
         log.info("===> Get /admin/item/new 요청");
@@ -182,7 +187,7 @@ public class MovieController {
         return "movie/register";
     }
 
-    // 영화 정보 DB등록 처리
+    // 영화 정보 DB등록 처리 (관리자 영화 등록 )
     @PostMapping(value="/admin/register")
     public String itemNew(@Valid MovieFormDTO movieFormDTO, BindingResult bindingResult, Model model,
             @RequestParam("movieImgFile") List<MultipartFile> movieImgFileList   //"itemImgFile" 클라이언트로 넘겨받은 매개변수(files객체)

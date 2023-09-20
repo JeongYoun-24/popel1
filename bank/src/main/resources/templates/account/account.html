@@ -1,5 +1,8 @@
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  layout:decorate="~{layout/bank}">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport"
@@ -13,80 +16,82 @@
 
 </head>
 <body>
-<div class="container">
+<div layout:fragment="content" class="m-3 p-3">
+	<div class="container">
 
 
-	<div class="row mt-3 w-75 m-auto">
+		<div class="row mt-3 w-75 m-auto">
 
-		<div class="col">
+			<div class="col">
 
-            <div class="container">
-                    
-                <div class="border border-black rounded rounded-4 mt-5 ">
-                    <div >
-                        <h3 class="text-center">계좌 생성페이지</h3>
-                    </div>
-                    <div class="text-center mt-3">
-						<input type="hidden" th:value="${#authentication.principal.username}" id="memberId">
-                      <span class="">본인인증</span> 이메일 
-                      <input type="email" name="email" id="email" > 
-                      <button class="btn btn-outline-dark" style="height: 35px;" id="emailBtn">확인</button>
-                    </div>
-                    <div class="d-flex justify-content-center mt-5">
-                        <button class="btn border border-1 border-black" id="btn1">계좌 생성</button>
-                        <button type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn border border-1 border-black" >계좌 생성</button>
+				<div class="container">
 
-                    </div>
-                    
-
-                </div>
-                
-
-
-            </div>
-
-			<!-- Button trigger modal -->
-
-			<!-- Modal -->
-			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h1 class="modal-title fs-5" id="exampleModalLabel">계좌 비밀번호 입력창</h1>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<div class="border border-black rounded rounded-4 mt-5 ">
+						<div >
+							<h3 class="text-center">계좌 생성페이지</h3>
 						</div>
-						<div class="modal-body">
-							<div>
-								<h3 class="text-center">계좌비밀번호 입력</h3>
-								<div class="d-flex justify-content-center">
-                                    <input type="password" maxlength="4" id="password"  placeholder="비밀번호 입력하세요">
+						<div class="text-center mt-3">
+							<input type="hidden" th:value="${#authentication.principal.username}" id="memberId">
+						  <span class="">본인인증</span> 이메일
+						  <input type="email" name="email" id="email" >
+						  <button class="btn btn-outline-dark" style="height: 35px;" id="emailBtn">확인</button>
+						</div>
+						<div class="d-flex justify-content-center mt-5">
+							<button class="btn border border-1 border-black" id="btn1">계좌 생성</button>
+							<button type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn border border-1 border-black" id="btn2" >계좌 생성</button>
 
-                                </div>
-                                <div class="d-flex justify-content-center mt-1">
-                                    <input type="password" maxlength="4" id="password2" placeholder="비밀번호 재입력하세요">
+						</div>
 
-                                </div>
+
+					</div>
+
+
+
+				</div>
+
+				<!-- Button trigger modal -->
+
+				<!-- Modal -->
+				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5" id="exampleModalLabel">계좌 비밀번호 입력창</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div>
+									<h3 class="text-center">계좌비밀번호 입력</h3>
+									<div class="d-flex justify-content-center">
+										<input type="password" maxlength="4" id="password"  placeholder="비밀번호 입력하세요">
+
+									</div>
+									<div class="d-flex justify-content-center mt-1">
+										<input type="password" maxlength="4" id="password2" placeholder="비밀번호 재입력하세요">
+
+									</div>
+
+
+								</div>
 
 
 							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" id="accountBtn">확인</button>
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeBtn">취소</button>
 
-
-						</div>
-						<div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="accountBtn">확인</button>
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeBtn">취소</button>
-							
+							</div>
 						</div>
 					</div>
 				</div>
+
+
+
 			</div>
-
-
 
 		</div>
 
 	</div>
-
 </div>
 
 
@@ -96,8 +101,9 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" 
     integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" 
     crossorigin="anonymous"></script>
-<script>
+<script layout:fragment="script"    th:inline="javascript">
 $(function(){
+	$('#btn2').hide()
     $('#closeBtn').click(function(){
         $('#password').val('')
         $('#password2').val('')
@@ -105,7 +111,7 @@ $(function(){
     })
 
 
-	$('#accountBtn').hide()
+
     $('#emailBtn').click(function(){
        
         var email = $('#email').val();
@@ -125,20 +131,34 @@ $(function(){
             data: JSON.stringify(data),
             contentType : "application/json",
             success : function(result, status){
-					console.log(result);
-					console.log(status);
+				$('#btn1').hide()
+				$('#btn2').show()
+					alert("인증성공")
+
 
             },
             error : function(result, status){
-            		console.log(result);
+            		console.log(result.responseText);
 					console.log(status);
+					if(result.responseText == "인증완료"){
+						$('#btn1').hide()
+						$('#btn2').show()
+						alert("인증성공")
+					}
+					if(result.responseText == "인증실패"){
+					$('#btn2').hide()
+            			$('#btn1').show()
+            			alert("인증실패")
+					}
+
+
             },
             complete : function(result, status){}
 
 
         })
-        $('#btn1').hide()
-		$('#accountBtn').show()
+<!--        $('#btn1').hide()-->
+<!--		$('#accountBtn').show()-->
 
 
     })
@@ -160,13 +180,23 @@ $(function(){
             data: JSON.stringify(data),
             contentType : "application/json",
             success : function(result, status){
-					console.log(result);
-					console.log(status);
+            	console.log(result)
+            	console.log(status)
+
+					alert("계좌 생성 성공!!!")
+					location.href = "/account/find"
+
+
 
             },
             error : function(result, status){
-            		console.log(result);
-					console.log(status);
+            console.log(result)
+            console.log(status)
+            		if(status == "error"){
+					alert("이미 계좌가 있습니다.")
+					location.href = "/account/find"
+
+					}
             },
             complete : function(result, status){}
 

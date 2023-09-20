@@ -2,13 +2,12 @@ package com.springboot.pople.service.order;
 
 import com.springboot.pople.dto.*;
 import com.springboot.pople.dto.item.CartDetailDTO;
-import com.springboot.pople.dto.item.OrderDetailDTO;
+
 import com.springboot.pople.dto.movieschedule.MovieScheduleDTO;
 import com.springboot.pople.entity.*;
 import com.springboot.pople.repository.OrderRepository;
 import com.springboot.pople.repository.OrderRepository2;
 import com.springboot.pople.repository.UsersRepository;
-import com.springboot.pople.repository.cart.OrderItemRepository;
 import com.springboot.pople.repository.item.ItemImgRepository;
 import com.springboot.pople.repository.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +37,7 @@ public class OrderService {
     private final UsersRepository usersRepository;// 회원 로직 처리
     private final OrderRepository2 orderRepository;// 주문서 로직 처리
     private final ItemImgRepository itemImgRepository;
-    private final OrderItemRepository orderItemRepository;
+//    private final OrderItemRepository orderItemRepository;
 
 
 

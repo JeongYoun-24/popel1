@@ -149,7 +149,7 @@ public class BoardController {
     // 공지사항 정보 수정
     @PostMapping(value="/admin/modify/{boardid}")
     public String itemUpdate(@Valid BoardFormDTO boardFormDTO, BindingResult bindingResult, @RequestParam("boardImgFile") List<MultipartFile> boardImgFileList, Model model){
-            log.info("공지사항 수정 ㄱㄱㄱ ");
+        log.info("공지사항 수정 ㄱㄱㄱ ");
         log.info(boardFormDTO);
         log.info(boardImgFileList);
 

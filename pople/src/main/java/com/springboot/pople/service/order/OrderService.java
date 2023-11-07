@@ -156,7 +156,7 @@ public class OrderService {
 
 
     // 현재 로그인한 회원의 정보를 이용하여 장바구니에 들어 있는 상품을 조회하는 로직
-    @Transactional(readOnly = true)
+  /*  @Transactional(readOnly = true)
     public Page<OrderDetailDTO> getCartList(String name,Pageable pageable){
         List<OrderDetailDTO> orderDetailDTOList = new ArrayList<>();
 
@@ -190,7 +190,7 @@ public class OrderService {
 
 
         return new PageImpl<>(orderDetailDTOList, pageable, totalCount);
-    }
+    }*/
 
 
   /*  public Long orders(List<OrderDTO2> orderDTOList,String name){
